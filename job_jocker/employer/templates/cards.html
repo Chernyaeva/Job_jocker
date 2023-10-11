@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Шаблон для вывода всех карточек работодателей</title>
+</head>
+<body>
+<h2>Здесь будут все карточки работодателей</h2>
+{% for card in cards %}
+<p>Номер карточки: #{{ card.id }}</p>
+<h3>Название компании: <a href="{% url 'card' card.id %}">{{ card.name }}</a></h3>
+<img src="{{ card.logo.url }}" />
+{% endfor %}
+</body>
+</html>
