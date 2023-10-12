@@ -6,6 +6,7 @@ import django.db.models.deletion
 
 
 
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -50,5 +51,4 @@ class Migration(migrations.Migration):
                 ('card_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='employer.card')),
             ],
         ),
-
     ]
