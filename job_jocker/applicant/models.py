@@ -3,7 +3,7 @@ from django.db import models
 import uuid
 
 class Resume(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)

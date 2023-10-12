@@ -3,7 +3,7 @@ from django.db import models
 import uuid
 
 class Card(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
@@ -26,7 +26,7 @@ class Card(models.Model):
     
 
 class Vacancy(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     card_id = models.ForeignKey(Card, on_delete=models.CASCADE)
     profession = models.CharField(max_length=100)
     experience = models.TextField(null=True, blank=True)
