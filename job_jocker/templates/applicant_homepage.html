@@ -1,0 +1,98 @@
+{% extends 'applicant_navbar.html' %}
+{% block title %} Страница соискателя {% endblock %}
+{% block home %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Имя пользователя</label>
+                        <input type="text" class="form-control mt-2" name="first_name" id="first_name"
+                            value="{{applicant.user.first_name}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Фамилия пользователя</label>
+                        <input type="text" class="form-control mt-2" name="last_name" id="last_name"
+                        value="{{applicant.user.last_name}}" required>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Логин</label>
+                        <input type="text" class="form-control mt-2" name="username" id="username"
+                            value="{{applicant.user.username}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-6">
+                        <label>Электронная почта</label>
+                        <input type="email" class="form-control mt-2" name="email" id="email" value="{{applicant.email}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Контактный телефон</label>
+                        <input type="tel" class="form-control mt-2" name="phone" id="phone" value="{{applicant.phone}}" required>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-6">
+                        <label>Пол</label>
+                        {% if applicant.gender == "Муж" %}
+                        <div class="mt-2" style="border: 1px solid lightgrey; padding: 5px; border-radius: 6px;">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="custom-control-input" name="gender" value="Муж" checked>
+                                <label for="Муж" class="custom-control-label">Муж</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="custom-control-input" name="gender"
+                                    value="Жен">
+                                <label for="Жен" class="custom-control-label">Жен</label>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div style="border: 1px solid lightgrey; padding: 5px; border-radius: 6px;">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="custom-control-input" name="gender" value="Муж">
+                                <label for="Муж" class="custom-control-label">Муж</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="custom-control-input" name="gender"
+                                    value="Жен" checked>
+                                <label for="Жен" class="custom-control-label">Жен</label>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Изображение профиля</label>
+                        <input type="file" class="form-control mt-2" name="image" id="image">
+                    </div>
+                </div>
+
+                <input type="submit" value="Обновить" class="btn mt-4" accept="image/*" style="background-color: #666666; color: white; font-size: larger; width: 8rem;">
+            </form>
+
+        </div>
+        <div class="col-sm-4 mt-5 text-center">
+            <img src="{{applicant.image.url}}" alt="" width="200px" height="200px">
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Данные пользователя обновлены")
+    window.location = "/applicant_homepage"
+    {% endif %}
+</script>
+{% endblock %}
