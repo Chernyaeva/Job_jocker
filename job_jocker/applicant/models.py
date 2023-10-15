@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 
 
 class Resume(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
     profession = models.CharField(max_length=100)
     skills = models.TextField(null=True, blank=True)
     education = models.CharField(max_length=100)
