@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-   <title>Шаблон для вывода резюме</title>
-</head>
-<body>
-<h2>Здесь будут все резюме</h2>
-{% for resume in resumes %}
-<p>Номер резюме: #{{ resume.id }}</p>
-<h3>Фамилия соискателя: <a href="{% url 'resume' resume.id %}">{{ resume.surname }}</a></h3>
-<h3>Желаемая должность: <a href="{% url 'resume' resume.id %}">{{ resume.profession }}</a></h3>
-{% endfor %}
-</body>
-</html>
+{% extends 'applicant_navbar.html' %}
+{% block title %} Все вакансии {% endblock %}
+{% block home %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+   <h2>Здесь будут все резюме</h2>
+   {% for resume in resumes %}
+   <p>Номер резюме: #{{ resume.id }}</p>
+   <h3>Фамилия соискателя: <a href="{% url 'resume' resume.id %}">{{ resume.surname }}</a></h3>
+   <h3>Желаемая должность: <a href="{% url 'resume' resume.id %}">{{ resume.profession }}</a></h3>
+   {% endfor %}
+{% endblock %}

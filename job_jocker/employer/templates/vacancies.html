@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-   <title>Шаблон для вывода всех вакансий</title>
-</head>
-<body>
-<h2>Здесь будут все вакансии</h2>
-{% for vacancy in vacancies %}
-<p>Номер вакансии: #{{ vacancy.id }}</p>
-<h3>Профессия: <a href="{% url 'vacancy' vacancy.id %}">{{ vacancy.profession }}</a></h3>
-<h4>Зарплата: {{ vacancy.salary }}</h4>
-{% endfor %}
-</body>
-</html>
+{% extends 'applicant_navbar.html' %}
+{% block title %} Все вакансии {% endblock %}
+{% block home %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+   <h2>Здесь будут все вакансии</h2>
+   {% for vacancy in vacancies %}
+      <p>Номер вакансии: #{{ vacancy.id }}</p>
+      <h3>Профессия: <a href="{% url 'vacancy' vacancy.id %}">{{ vacancy.profession }}</a></h3>
+      <h4>Зарплата: {{ vacancy.salary }}</h4>
+   {% endfor %}
+{% endblock %}

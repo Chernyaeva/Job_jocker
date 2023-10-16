@@ -7,4 +7,5 @@ urlpatterns = [
     path("applicant_login/", views.applicant_login, name="applicant_login"),
     path("applicant_homepage/", views.applicant_homepage, name="applicant_homepage"),
     path('resume-object/<str:pk>/', views.resume, name="resume"),
+    path('resumes/', views.resumes, name="resumes")
 ]
