@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Application
 from employer.models import Vacancy, Card
 from applicant.models import Resume
-from django.contrib.auth.models import User
+from user.models import User
 
 def applications(request):
     applications = Application.objects.all()
