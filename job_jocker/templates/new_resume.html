@@ -1,0 +1,42 @@
+{% extends 'applicant_navbar.html' %}
+
+{% block title %} Новое резюме {% endblock %}
+{% block resumes %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="form-group">
+                        <label>Профессия</label>
+                        <input type="text" class="form-control" name="profession" id="profession" placeholder="Введите профессию">
+                        <label>Навыки</label>
+                        <input type="text" class="form-control" name="skills" id="skills" placeholder="Введите свои навыки">
+                        <label>Образование</label>
+                        <input type="text" class="form-control" name="education" id="education" placeholder="Введите свое образование">
+                        <label>Опыт</label>
+                        <input type="text" class="form-control" name="experience" id="experience" placeholder="Введите свои опыт">
+                        <label>Зарплата</label>
+                        <input type="number" class="form-control" name="salary" id="salary" placeholder="Введите желаемый размер ежемесячной зарплаты">
+                        <label>Изображение пользователя</label>
+                        <input type="file" class="form-control" name="image" id="image" placeholder="">
+                        <br>
+                        <input type="submit" value="Опубликовать" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Резюме отправлено модератору на согласование")
+    window.location = "/applicant/all_resumes/"
+    {% endif %}
+</script>
+{% endblock %}

@@ -33,30 +33,30 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-      <a class="navbar-brand" href="#"><span class="head1">JOB</span><span class="head2">JOCKER</span></a>
-      <div class="container w-50">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+   <nav class="navbar navbar-expand-lg sticky-top navbar-dark sticky-top">
+      <a class="navbar-brand" href="/"><span class="head1">JOB</span><span class="head2">JOCKER</span></a>
+      <div class="container-fluid w-50">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link {% block home %}{% endblock %}" aria-current="page" href="/applicant_homepage/">Личный кабинет</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link {% block resume %}{% endblock %}" aria-current="page" href="/resume/">Мои резюме</a>
+              <a class="nav-link {% block profile %}{% endblock %}" aria-current="page" href="/applicant_homepage/">Личный кабинет</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {% block job_list %}{% endblock %}" href="/all_jobs/">Вакансии</a>
+              <a class="nav-link {% block resumes %}{% endblock %}" href="/applicant/all_resumes/">Мои резюме</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/logout/">Выход</a>
+              <a class="nav-link {% block vacancy %}{% endblock %}" href="/all_vacancy/">Вакансии</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout/">Выйти</a>
             </li>
           </ul>
-          <a class="navbar-brand" style="font-weight: normal; font-family: 'Arial', Times, serif;"
-            href="#">{{request.user.get_full_name}}</a>
+          <a class="navbar-brand" style="font-weight: large; font-family: 'Arial', Times, serif;"
+            href="#">{{request.user.username}}</a>
         </div>
       </div>
   </nav>
@@ -70,7 +70,5 @@
 </body>
 {% block js %}
 {% endblock %}
-
-</html>
 
 </html>
