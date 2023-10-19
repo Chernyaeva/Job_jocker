@@ -1,16 +1,17 @@
 from django.db import models
-#import user from user_app 
+from django.contrib.auth.models import User
 import uuid
 
 class Card(models.Model):
     # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    #user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     mail = models.CharField(max_length=100)
     legal_form = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=300)
     inn = models.IntegerField(default=0, null=True, blank=True)
+    phone = models.IntegerField(default=0, null=True, blank=True)
     web_site = models.CharField(max_length=100)
 
     logo = models.ImageField(

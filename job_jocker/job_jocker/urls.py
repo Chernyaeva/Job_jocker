@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('applicant.urls')),
     path("logout/", views.Logout, name="logout"),
-    # path('employer/', include('employer.urls')),
+    path('employer/', include('employer.urls')),
     # path('application/', include('application.urls')),
 ]
 
