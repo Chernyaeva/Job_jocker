@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link {% block home %}{% endblock %}" aria-current="page" href="{% url 'employer_homepage'%}">Личный кабинет</a>
+              <a class="nav-link {% block home %}{% endblock %}" aria-current="page" href="{% url 'employer_homepage'%}">Кабинет компании</a>
             </li>
              <li class="nav-item">
               <a class="nav-link {% block vacancies %}{% endblock %}" aria-current="page" href="{% url 'vacancies'%}">Мои вакансии</a>
@@ -56,7 +56,7 @@
             </li>
           </ul>
           <a class="navbar-brand" style="font-weight: normal; font-family: 'Arial', Times, serif;"
-            href="#">{{request.user.get_full_name}}</a>
+            href="#">{{request.user.username}}</a>
         </div>
       </div>
   </nav>

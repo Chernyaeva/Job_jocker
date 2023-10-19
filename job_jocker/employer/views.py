@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy
 from applicant.models import Resume
@@ -23,7 +25,7 @@ def vacancy(request, pk):
 
 def employer_homepage(request):
     if not request.user.is_authenticated:
-        return redirect('/employer_login/')
+        return redirect('/employer/login/')
     employer = Card.objects.get(user=request.user)
     if request.method=="POST":
         mail = request.POST['mail']
@@ -33,7 +35,7 @@ def employer_homepage(request):
         web_site = request.POST['web_site']
         inn = request.POST['inn']
         description = request.POST["description"]
-        address = request.POSt["address"]
+        address = request.POST["address"]
 
         employer.mail = mail
         employer.name = name
@@ -44,10 +46,7 @@ def employer_homepage(request):
         employer.description = description
         employer.address = address
 
-
         employer.save()
-        employer.user.save()
-
         try:
             image = request.FILES['image']
             employer.logo = image
@@ -59,6 +58,62 @@ def employer_homepage(request):
     return render(request, "employer_homepage.html", {'employer':employer})
 
 
-def all_resumes(request):
-    resumes = Resume.objects.all()
-    return render(request, "all_resumes.html", {'resumes':resumes})
+def employer_login(request):
+    if request.user.is_authenticated:
+        return redirect("/")
+    else:
+        if request.method == "POST":
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                user1 = Card.objects.get(user=user)
+                if user1.role == "employer":
+                    login(request, user)
+                    return redirect("/employer/homepage/")
+                else:
+                    thank = True
+                    return render(request, "employer_login.html", {"thank": thank})
+            else:
+                thank = True
+                return render(request, "employer_login.html", {"thank": thank})
+    return render(request, "employer_login.html")
+
+
+def all_vacancy(request):
+    vacancies = Vacancy.objects.all()
+    return render(request, "all_vacancies.html", {'vacancies': vacancies})
+
+
+def employer_signup(request):
+    if request.method == "POST":
+        username = request.POST['email']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        name_company = request.POST['name_company']
+        phone = request.POST['phone']
+        legal_form = request.POST['legal_form']
+        description = request.POST['description']
+        address = request.POST['address']
+        web_site = request.POST['web_site']
+        inn = request.POST['inn']
+        image = request.FILES['image']
+
+        if password1 != password2:
+            messages.error(request, "Введенные пароли не совпадают")
+            return redirect('/employer/signup/')
+
+        user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username,
+                                        password=password1)
+        employer = Card.objects.create(user=user, phone=phone, name=name_company,
+                                       logo=image, mail=username, legal_form=legal_form,
+                                       description=description, address=address,
+                                       inn=inn, web_site=web_site, role='employer')
+        user.save()
+        employer.save()
+        alert = True
+        return render(request, "employer_signup.html", {'alert': alert})
+    return render(request, "employer_signup.html")

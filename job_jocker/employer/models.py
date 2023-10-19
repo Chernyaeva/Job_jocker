@@ -3,10 +3,9 @@ from django.contrib.auth.models import User
 import uuid
 
 class Card(models.Model):
-    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    mail = models.CharField(max_length=100)
+    mail = models.EmailField(max_length=100)
     legal_form = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=300)
@@ -19,6 +18,7 @@ class Card(models.Model):
     is_posted = models.BooleanField(default=False, null=True)
     admin_comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=10, default='employer')
 
 
 
@@ -27,7 +27,6 @@ class Card(models.Model):
     
 
 class Vacancy(models.Model):
-    # id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     card_id = models.ForeignKey(Card, on_delete=models.CASCADE)
     profession = models.CharField(max_length=100)
     experience = models.TextField(null=True, blank=True)

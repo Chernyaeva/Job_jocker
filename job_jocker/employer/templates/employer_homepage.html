@@ -11,13 +11,13 @@
             <form class="container mt-4" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <div class="row">
-                    <div class="form-group col-md-6">
+                 <div class="row">
+                    <div class="form-group col-md-12">
                         <label>Название компании</label>
                         <input type="text" class="form-control mt-2" name="name" id="name"
                             value="{{employer.name}}" required>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label>Организационно-правовая форма компании</label>
                         <input type="text" class="form-control mt-2" name="legal_form" id="legal_form"
                         value="{{employer.legal_form}}" required>
@@ -28,7 +28,7 @@
                     <div class="form-group col-md-12">
                         <label>Описание компании</label>
                         <input type="text" class="form-control mt-2" name="description" id="description"
-                            value="{{employer.description}}" readonly>
+                            value="{{employer.description}}" required>
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
                     <div class="form-group col-md-12">
                         <label>Адрес компании</label>
                         <input type="text" class="form-control mt-2" name="address" id="address"
-                            value="{{employer.address}}" readonly>
+                            value="{{employer.address}}" required>
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
 
         </div>
         <div class="col-sm-4 mt-5 text-center">
-            <img src="{{employer.image.url}}" alt="" width="200px" height="200px">
+            <img src="{{employer.logo.url}}" alt="" width="250px" height="250px">
         </div>
     </div>
 </div>
@@ -88,8 +88,8 @@
 {% block js %}
 <script>
     {% if alert %}
-    alert("Данные пользователя обновлены")
-    window.location = "/employer_homepage"
+    alert("Данные компании обновлены")
+    window.location = "/employer/homepage"
     {% endif %}
 </script>
 {% endblock %}

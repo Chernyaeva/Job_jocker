@@ -48,6 +48,9 @@ def applicant_login(request):
                 if user1.role == "applicant":
                     login(request, user)
                     return redirect("/applicant_homepage")
+                else:
+                    thank = True
+                    return render(request, "applicant_login.html", {"thank": thank})
             else:
                 thank = True
                 return render(request, "applicant_login.html", {"thank": thank})
