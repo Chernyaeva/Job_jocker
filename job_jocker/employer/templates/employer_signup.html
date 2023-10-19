@@ -1,0 +1,86 @@
+{% extends 'basic.html' %}
+
+{% block title %} Страница регистраци работодателя {% endblock %}
+{% block company_login %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<form class="container mt-4" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Имя пользователя</label>
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Введите имя">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Фамилия пользователя</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Введите фамилию">
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Пароль</label>
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="Введите пароль">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Повторите пароль</label>
+            <input type="password" class="form-control" name="password2" id="password2" placeholder="Введите пароль повторно">
+        </div>
+    </div>
+    {% for msg in messages %}
+        <font color="red">{{ msg }}</font>
+    {% endfor %}
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Электронная почта</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Введите электронную почту">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Контактный телефон</label>
+            <input type="tel" class="form-control" name="phone" id="phone" placeholder="Введите номер телефона">
+        </div>
+    </div>
+        <div class="form-group col-md-12">
+            <label>Название компании</label>
+            <input type="text" class="form-control" name="name_company" id="name_company" placeholder="Введите фирменное наименование">
+        </div>
+         <div class="form-group col-md-12">
+            <label>Организационно-правовая форма</label>
+            <input type="text" class="form-control" name="legal_form" id="legal_form" placeholder="Введите организационно-правовую форму">
+        </div>
+         <div class="form-group col-md-12">
+            <label>Описание компании</label>
+            <input type="text" class="form-control" name="description" id="description" placeholder="Введите описание компании">
+        </div>
+        <div class="form-group col-md-12">
+            <label>Адрес</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Введите адрес">
+        </div>
+        <div class="form-group col-md-12">
+            <label>ИНН</label>
+            <input type="text" class="form-control" name="inn" id="inn" placeholder="Введите ИНН">
+        </div>
+        <div class="form-group col-md-12">
+            <label>Веб сайт</label>
+            <input type="text" class="form-control" name="web_site" id="web_site" placeholder="Введите веб сайт">
+        </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Логотип компании</label>
+            <input type="file" class="form-control" name="image" id="image" placeholder="">
+        </div>
+    </div>
+    <br>
+<input type="submit" value="Регистрация" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Компания зарегистрирована")
+    window.location = "/employer/homepage"
+    {% endif %}
+</script>
+{% endblock %}
