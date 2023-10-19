@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Шаблон для отдельной карточки</title>
-</head>
-<body>
-<h1>Подробная информация о работодателе</h1>
-<h3>Карточка #{{ card.id }}</h3>
-<p>{{ card.name }}</p>
-<br>
-<em>{{ card.description }}</em>
-</body>
-</html>
+{% extends 'employer_navbar.html' %}
+{% block title %} Карточка работодателя {% endblock %}
+{% block home %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+    <h1>Подробная информация о работодателе</h1>
+    <h3>Карточка #{{ card.id }}</h3>
+    <p>{{ card.name }}</p>
+    <br>
+    <em>{{ card.description }}</em>
+{% endblock %}

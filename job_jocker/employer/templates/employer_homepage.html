@@ -1,0 +1,95 @@
+{% extends 'employer_navbar.html' %}
+{% block title %} Страница работодателя {% endblock %}
+{% block home %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Название компании</label>
+                        <input type="text" class="form-control mt-2" name="name" id="name"
+                            value="{{employer.name}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Организационно-правовая форма компании</label>
+                        <input type="text" class="form-control mt-2" name="legal_form" id="legal_form"
+                        value="{{employer.legal_form}}" required>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Описание компании</label>
+                        <input type="text" class="form-control mt-2" name="description" id="description"
+                            value="{{employer.description}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Веб-сайт компании</label>
+                        <input type="text" class="form-control mt-2" name="web_site" id="web_site"
+                            value="{{employer.web_site}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>ИНН компании</label>
+                        <input type="text" class="form-control mt-2" name="inn" id="inn"
+                            value="{{employer.inn}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Адрес компании</label>
+                        <input type="text" class="form-control mt-2" name="address" id="address"
+                            value="{{employer.address}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-6">
+                        <label>Электронная почта</label>
+                        <input type="mail" class="form-control mt-2" name="mail" id="mail" value="{{employer.mail}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Контактный телефон</label>
+                        <input type="tel" class="form-control mt-2" name="phone" id="phone" value="{{employer.phone}}" required>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+ 
+                    <div class="form-group col-md-6">
+                        <label>Логотип компании</label>
+                        <input type="file" class="form-control mt-2" name="image" id="image">
+                    </div>
+                </div>
+
+                <input type="submit" value="Обновить" class="btn mt-4" accept="image/*" style="background-color: #666666; color: white; font-size: larger; width: 8rem;">
+            </form>
+
+        </div>
+        <div class="col-sm-4 mt-5 text-center">
+            <img src="{{employer.image.url}}" alt="" width="200px" height="200px">
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Данные пользователя обновлены")
+    window.location = "/employer_homepage"
+    {% endif %}
+</script>
+{% endblock %}
