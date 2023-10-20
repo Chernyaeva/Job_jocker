@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy
-from applicant.models import Resume
+from applicant.models import Resume, Applicant
 from django.contrib.auth.models import User
 
 def cards(request):
@@ -89,8 +89,8 @@ def all_vacancy(request):
 def employer_signup(request):
     if request.method == "POST":
         username = request.POST['email']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
+        first_name = 'noname'# request.POST['first_name']
+        last_name = 'noname' # request.POST['last_name']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         name_company = request.POST['name_company']
@@ -117,3 +117,12 @@ def employer_signup(request):
         alert = True
         return render(request, "employer_signup.html", {'alert': alert})
     return render(request, "employer_signup.html")
+
+def all_resumes_employer(request):
+    resumes = Resume.objects.all()
+    return render(request, "all_resumes_employer.html", {'resumes':resumes})
+
+def resume_employer(request, myid):
+    resume = Resume.objects.get(id=myid)
+    applicant = Applicant.objects.get(user=resume.applicant.user)
+    return render(request, 'resume_detail_employer.html',{'resume':resume, 'applicant':applicant})
