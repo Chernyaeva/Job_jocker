@@ -24,7 +24,7 @@
             <td>{{vacancy.salary}}</td>
             <td>{{vacancy.created}}</td>
             <td>{{vacancy.status}}</td>
-            <td><a href="{% url 'offer_sent' vacancy.id resume.id %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Выбрать</a></td>
+            <td><a href="{% url 'offer_sent' vacancy_id=vacancy.id resume_id=resume.id %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Выбрать</a></td>
         </tr>
         {% endfor %}
     </tbody>

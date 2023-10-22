@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .models import Card, Vacancy, FavoriteResumes
+from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
 from django.contrib.auth.models import User
 
@@ -207,14 +207,18 @@ def vacancy_edit(request, myid):
 
 def choose_vacancy(request, resume_id):
     card = Card.objects.get(user=request.user)
-    resume = Resume.objects.filter(id=resume_id)
+    resume = Resume.objects.get(id=resume_id)
     vacancies = Vacancy.objects.filter(card_id = card)
     return render(request, "choose_vacancy.html", {'resume':resume, 'vacancies':vacancies})
 
 
-# def offer_sent(request, vacancy_id, resume_id):
-#     resume = Resume.objects.get(id=resume_id)
-#     new_favorite_resume = FavoriteResumes.objects.create(card=card, resume=resume)
-#     new_favorite_resume.save()
-#     return render(request, "add_favorite_resume.html")
+def offer_sent(request, vacancy_id, resume_id):
+    resume = Resume.objects.get(id=resume_id)
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    new_application = Application.objects.create(resume=resume,
+                                                  vacancy=vacancy,
+                                                  creator=request.user,
+                                                  status='Отправлено соискателю')
+    new_application.save()
+    return render(request, "offer_sent.html")
 
