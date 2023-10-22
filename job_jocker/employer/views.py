@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .models import Card, Vacancy
+from .models import Card, Vacancy, FavoriteResumes
 from applicant.models import Resume, Applicant
 from django.contrib.auth.models import User
 
@@ -125,4 +125,22 @@ def all_resumes_employer(request):
 def resume_employer(request, myid):
     resume = Resume.objects.get(id=myid)
     applicant = Applicant.objects.get(user=resume.applicant.user)
-    return render(request, 'resume_detail_employer.html',{'resume':resume, 'applicant':applicant})
+    card = Card.objects.get(user=request.user)
+    favorite_resumes = FavoriteResumes.objects.filter(card=card)
+    favorite_resumes = Resume.objects.filter(id__in=favorite_resumes)
+    return render(request, 'resume_detail_employer.html',{'resume':resume, 'applicant':applicant, 'card':card, 'favorite_resumes':favorite_resumes})
+
+
+def add_favorite_resume(request, card_id, resume_id):
+    card = Card.objects.get(id=card_id)
+    resume = Resume.objects.get(id=resume_id)
+    new_favorite_resume = FavoriteResumes.objects.create(card=card, resume=resume)
+    new_favorite_resume.save()
+    return render(request, "add_favorite_resume.html")
+
+
+def favorite_resumes(request):
+    card = Card.objects.get(user=request.user)
+    favorite_resumes = FavoriteResumes.objects.filter(card=card)
+    resumes = Resume.objects.filter(id__in=favorite_resumes)
+    return render(request, "favorite_resumes.html", {'resumes':resumes})

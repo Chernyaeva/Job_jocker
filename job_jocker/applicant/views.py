@@ -119,7 +119,8 @@ def new_resume(request):
                              skills=skills,
                              education=education,
                              experience=experience,
-                             salary=salary,)
+                             salary=salary,
+                             )
        my_resume.save()
        try:
            image = request.FILES['image']

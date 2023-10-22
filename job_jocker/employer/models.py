@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from applicant.models import Resume
 import uuid
 
 class Card(models.Model):
@@ -43,3 +44,13 @@ class Vacancy(models.Model):
     def __str__(self):
         return f"{self.profession}"
 
+
+
+class FavoriteResumes(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"{self.resume.surname}, {self.resume.profession}"
