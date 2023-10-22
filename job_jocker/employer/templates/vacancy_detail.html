@@ -1,0 +1,31 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Моя вакансия {% endblock %}
+{% block vacancy %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4 shadow-lg py-3 mb-4">
+<div class="row">
+    <div class="col-md-5">
+        <img src="{{vacancy.card_id.logo.url}}" alt="" width="250px" height="250px">
+    </div>
+    <div class="col-md-6">
+        <h2>{{vacancy.card_id.legal_form}} {{vacancy.card_id.name}} </h2>
+        <p>Контактный телефон: {{vacancy.card_id.phone}}</p>
+        <p>Электронная почта: {{vacancy.card_id.mail}}</p>
+        <p>Профессия: {{vacancy.profession}}</p>
+        <p>Навыки: {{vacancy.skills}}</p>
+        <p>Образование: {{vacancy.education}}</p>
+        <p>Опыт: {{vacancy.experience}}</p>
+        <p>Уровень заработной платы: {{vacancy.salary}} рублей в месяц</p>
+        <p>Адрес места работы: {{vacancy.address}}</p>
+        <p>Описание: {{vacancy.description}} </p>
+        <div class="mt-3">
+            <a href="{% url 'vacancy_edit' vacancy.id %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 6rem;">Изменить</a>
+            <a href="{% url 'vacancy_delete' vacancy.id %}" class="btn btn-danger">Удалить</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

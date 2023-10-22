@@ -1,6 +1,7 @@
 from django.db import models
-from user.models import User
 
+from user.models import User
+from applicant.models import Resume
 
 class Card(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -12,7 +13,6 @@ class Card(models.Model):
     inn = models.IntegerField(default=0)
     phone = models.CharField(max_length=20)
     web_site = models.CharField(max_length=100)
-
     logo = models.ImageField(upload_to='profile_images', default="logo_images/default_logo.jpg")
     is_posted = models.BooleanField(default=False, null=True)
     admin_comment = models.TextField(null=True, blank=True)
@@ -36,7 +36,27 @@ class Vacancy(models.Model):
     admin_comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return f"{self.profession}"
 
+
+
+class FavoriteResumes(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.resume.surname}, {self.resume.profession}"
+    
+
+class Application(models.Model):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=300)
+    response = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f" {self.vacancy.card_id.name}, {self.resume.surname}, {self.resume.profession}"

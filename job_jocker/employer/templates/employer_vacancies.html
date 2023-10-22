@@ -1,0 +1,35 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Мои вакансии {% endblock %}
+{% block vacancies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+<table class="table table-hover" id="example">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Профессия</th>
+            <th>Зарплата</th>
+            <th>Дата размещения</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vacancy in vacancies %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{vacancy.profession}}</td>
+            <td>{{vacancy.salary}}</td>
+            <td>{{vacancy.created}}</td>
+            <td>{{vacancy.status}}</td>
+            <td><a href="{% url 'vacancy_detail' vacancy.id %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <h6> <a href="{% url 'vacancy_new' %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Создать</a>
+ </h6>
+</div>
+{% endblock %}
