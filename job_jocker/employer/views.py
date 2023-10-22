@@ -5,18 +5,23 @@ from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
 from django.contrib.auth.models import User
 
+
 def cards(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     cards = Card.objects.all()
     context = {'cards': cards}
     return render(request, 'cards.html', context)
 
 def card(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     cardObj = Card.objects.get(id=pk)
     return render(request, 'one_card.html', {'card': cardObj})
 
 def employer_homepage(request):
     if not request.user.is_authenticated:
-        return redirect('/employer/login/')
+        return redirect('/login/')
     employer = Card.objects.get(user=request.user)
     if request.method=="POST":
         mail = request.POST['mail']
@@ -49,71 +54,23 @@ def employer_homepage(request):
     return render(request, "employer_homepage.html", {'employer':employer})
 
 
-def employer_login(request):
-    if request.user.is_authenticated:
-        return redirect("/")
-    else:
-        if request.method == "POST":
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-
-            if user is not None:
-                user1 = Card.objects.get(user=user)
-                if user1.role == "employer":
-                    login(request, user)
-                    return redirect("/employer/homepage/")
-                else:
-                    thank = True
-                    return render(request, "employer_login.html", {"thank": thank})
-            else:
-                thank = True
-                return render(request, "employer_login.html", {"thank": thank})
-    return render(request, "employer_login.html")
-
-
 def all_vacancy(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     vacancies = Vacancy.objects.all()
     return render(request, "all_vacancies.html", {'vacancies': vacancies})
 
 
-def employer_signup(request):
-    if request.method == "POST":
-        username = request.POST['email']
-        first_name = 'noname'# request.POST['first_name']
-        last_name = 'noname' # request.POST['last_name']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        name_company = request.POST['name_company']
-        phone = request.POST['phone']
-        legal_form = request.POST['legal_form']
-        description = request.POST['description']
-        address = request.POST['address']
-        web_site = request.POST['web_site']
-        inn = request.POST['inn']
-        image = request.FILES['image']
-
-        if password1 != password2:
-            messages.error(request, "Введенные пароли не совпадают")
-            return redirect('/employer/signup/')
-
-        user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username,
-                                        password=password1)
-        employer = Card.objects.create(user=user, phone=phone, name=name_company,
-                                       logo=image, mail=username, legal_form=legal_form,
-                                       description=description, address=address,
-                                       inn=inn, web_site=web_site, role='employer')
-        user.save()
-        employer.save()
-        alert = True
-        return render(request, "employer_signup.html", {'alert': alert})
-    return render(request, "employer_signup.html")
-
 def all_resumes_employer(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     resumes = Resume.objects.all()
     return render(request, "all_resumes_employer.html", {'resumes':resumes})
 
+
 def resume_employer(request, myid):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     resume = Resume.objects.get(id=myid)
     applicant = Applicant.objects.get(user=resume.applicant.user)
     card = Card.objects.get(user=request.user)
