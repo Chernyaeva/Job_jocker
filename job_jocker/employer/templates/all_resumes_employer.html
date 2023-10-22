@@ -10,9 +10,9 @@
         <tr>
             <th>No</th>
             <th>Профессия</th>
-            <th>Зарплата</th>
+            <th>Навыки</th>
             <th>Дата размещения</th>
-            <th>Статус</th>
+            <th>Зарплата</th>
         </tr>
     </thead>
     <tbody>
@@ -20,9 +20,9 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{resume.profession}}</td>
-            <td>{{resume.salary}}</td>
+            <td>{{resume.skills}}</td>
             <td>{{resume.created}}</td>
-            <td>{{resume.status}}</td>
+            <td>{{resume.salary}}</td>
             <td><a href="{% url 'resume_employer' resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
         </tr>
         {% endfor %}

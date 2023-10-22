@@ -1,17 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user.models import User
 
 
 class Applicant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="")
-    gender = models.CharField(max_length=10, choices=[('Муж', 'Муж'), ('Жен', 'Жен')])
     role = models.CharField(max_length=10, default='applicant')
 
     def __str__(self):
-        return self.user.first_name
+        return f"{self.user.first_name} {self.user.last_name}"
 
 
 class Resume(models.Model):
@@ -23,10 +19,8 @@ class Resume(models.Model):
     education = models.CharField(max_length=256)
     experience = models.TextField(default='Без опыта', blank=False)
     salary = models.IntegerField(default=0, null=True, blank=True)
-    photo = models.ImageField(
-        null=True, blank=True, upload_to='profile_images', default="profile_images/default.png")
-    status = models.CharField(max_length=12, choices=[('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'), ('ОПУБЛИКОВАНО', 'ОПУБЛИКОВАНО'),
-                                                      ('ОТКЛОНЕНО', 'ОТКЛОНЕНО')], default='РАССМОТРЕНИЕ')
+    status = models.CharField(max_length=12, choices=[('ЧЕРНОВИК', 'ЧЕРНОВИК'), ('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'), ('ОПУБЛИКОВАНО', 'ОПУБЛИКОВАНО'),
+                                                      ('ОТКЛОНЕНО', 'ОТКЛОНЕНО')], default='ЧЕРНОВИК')
     created = models.DateTimeField(auto_now_add=True)
 
 

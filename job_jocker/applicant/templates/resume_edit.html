@@ -21,10 +21,9 @@
                         <input type="text" class="form-control" name="experience" id="experience" value="{{resume.experience}}" required>
                         <label>Зарплата</label>
                         <input type="number" class="form-control" name="salary" id="salary" value="{{resume.salary}}" required>
-                        <label>Изображение пользователя</label>
-                        <input type="file" class="form-control" name="image" id="image" value="{{resume.photo}}">
                         <br>
-                        <input type="submit" value="Сохранить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 9rem;">
+                        <input type="submit" name="action" value="Опубликовать" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+                        <input type="submit" name="action" value="Сохранить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
                     </div>
                 </div>
             </form>
@@ -34,8 +33,12 @@
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Резюме отредактировано")
+     {% if alert_1 %}
+    alert("Резюме отправлено модератору на согласование")
+    window.location = "/applicant/all_resumes/"
+    {% endif %}
+    {% if alert_2 %}
+    alert("Резюме сохранено как черновик")
     window.location = "/applicant/all_resumes/"
     {% endif %}
 </script>

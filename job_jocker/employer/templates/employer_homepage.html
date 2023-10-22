@@ -36,7 +36,7 @@
                     <div class="form-group col-md-12">
                         <label>Веб-сайт компании</label>
                         <input type="text" class="form-control mt-2" name="web_site" id="web_site"
-                            value="{{employer.web_site}}" readonly>
+                            value="{{employer.web_site}}" required>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                     <div class="form-group col-md-12">
                         <label>ИНН компании</label>
                         <input type="text" class="form-control mt-2" name="inn" id="inn"
-                            value="{{employer.inn}}" readonly>
+                            value="{{employer.inn}}" required>
                     </div>
                 </div>
 
@@ -67,15 +67,10 @@
                     </div>
                 </div>
 
-                <div class="row mt-4">
- 
-                    <div class="form-group col-md-6">
                         <label>Логотип компании</label>
                         <input type="file" class="form-control mt-2" name="image" id="image">
-                    </div>
-                </div>
 
-                <input type="submit" value="Обновить" class="btn mt-4" accept="image/*" style="background-color: #666666; color: white; font-size: larger; width: 8rem;">
+                <input type="submit" value="Сохранить" class="btn mt-4" accept="image/*" style="background-color: #666666; color: white; font-size: larger; width: 8rem;" placeholder="name">
             </form>
 
         </div>
