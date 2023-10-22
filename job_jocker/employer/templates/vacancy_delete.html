@@ -1,0 +1,14 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Удалить вакансию {% endblock %}
+{% block vacancies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Вакансия удалена")
+    window.location = "{% url 'employer_vacancies' %}"
+</script>
+{% endblock %}

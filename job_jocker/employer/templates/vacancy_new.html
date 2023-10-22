@@ -1,0 +1,44 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Новая вакансия {% endblock %}
+{% block vacansies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="form-group">
+                        <label>Профессия</label>
+                        <input type="text" class="form-control" name="profession" id="profession" placeholder="Введите профессию">
+                        <label>Навыки</label>
+                        <input type="text" class="form-control" name="skills" id="skills" placeholder="Введите требуемые навыки">
+                        <label>Образование</label>
+                        <input type="text" class="form-control" name="education" id="education" placeholder="Введите требуемое образование">
+                        <label>Опыт</label>
+                        <input type="text" class="form-control" name="experience" id="experience" placeholder="Введите требуемый опыт">
+                        <label>Зарплата</label>
+                        <input type="number" class="form-control" name="salary" id="salary" placeholder="Введите размер ежемесячной зарплаты">
+                        <label>Адрес</label>
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Введите адрес компании">
+                        <label>Описание</label>
+                        <input type="text" class="form-control" name="description" id="description" placeholder="Введите описание вакансии">
+                        <br>
+                        <input type="submit" value="Опубликовать" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Вакансия отправлена модератору на согласование")
+    window.location = "{% url 'employer_vacancies' %}"
+    {% endif %}
+</script>
+{% endblock %}
