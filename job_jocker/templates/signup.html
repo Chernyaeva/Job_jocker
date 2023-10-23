@@ -1,0 +1,100 @@
+{% extends 'basic.html' %}
+
+{% block title %} Страница регистраци {% endblock %}
+{% block login %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<form class="container mt-4" method="POST" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
+    {% csrf_token %}
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Имя пользователя</label>
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Введите имя">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Фамилия пользователя</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Введите фамилию">
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Пароль</label>
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="Введите пароль">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Повторите пароль</label>
+            <input type="password" class="form-control" name="password2" id="password2" placeholder="Введите пароль повторно">
+        </div>
+    </div>
+    {% for msg in messages %}
+        <font color="red">{{ msg }}</font>
+    {% endfor %}
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Электронная почта</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Введите электронную почту">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Контактный телефон</label>
+            <input type="tel" class="form-control" name="phone" id="phone" placeholder="Введите номер телефона">
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label>Пол</label>
+            <div style="border: 1px solid lightgrey; padding: 5px; border-radius: 6px;">
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="custom-control-input" name="gender" id="Муж" value="Муж">
+                    <label for="Муж" class="custom-control-label">Муж</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="custom-control-input" name="gender" id="Жен" value="Жен">
+                    <label for="Жен" class="custom-control-label">Жен</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Статус</label>
+            <div style="border: 1px solid lightgrey; padding: 5px; border-radius: 6px;">
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="custom-control-input" name="status" id="Ищу работу" value="Ищу работу">
+                    <label for="Ищу работу" class="custom-control-label">Ищу работу</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="custom-control-input" name="status" id="Ищу сотрудника" value="Ищу сотрудника">
+                    <label for="Ищу сотрудника" class="custom-control-label">Ищу сотрудника</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+     <div class="form-group col-md-6">
+            <label>Адрес</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Введите адрес">
+        </div>
+    <div class="form-group col-md-6">
+        <label>Изображение пользователя</label>
+        <input type="file" class="form-control" name="image" id="image" placeholder="first_name">
+    </div>
+    </div>
+    <br>
+    <input type="submit" value="Регистрация" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+</form>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert_applicant %}
+    alert("Соискатель зарегистрирован")
+    window.location = "/login/"
+    {% endif %}
+    {% if alert_employer %}
+    alert("Работодатель зарегистрирован")
+    window.location = "/login/"
+    {% endif %}
+    {% if alert_error %}
+    alert("Пользователь с таким e-mail уже зарегистрирован")
+    window.location = "/signup/"
+    {% endif %}
+</script>
+{% endblock %}
