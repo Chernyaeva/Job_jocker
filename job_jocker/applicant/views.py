@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from user.models import User
 from django.shortcuts import render, redirect
 from .models import Resume, Applicant
+from employer.models import Vacancy
 
 
 def applicant_homepage(request):
@@ -120,6 +121,14 @@ def edit_resume(request, myid):
 
 
 
+def all_vacancies_applicant(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    all_vacancies_applicant = Vacancy.objects.all()
+    return render(request, "all_vacancies_applicant.html", {'all_vacancies_applicant': all_vacancies_applicant})
 
 
 
+def applicant_vacancy_detail(request, pk):
+    vacancyObj = Vacancy.objects.get(id=pk)
+    return render(request, 'applicant_vacancy_detail.html', {'vacancy': vacancyObj})

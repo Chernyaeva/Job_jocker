@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>No</th>
+            <th>Соискатель</th>
             <th>Профессия</th>
             <th>Навыки</th>
             <th>Дата размещения</th>
@@ -19,6 +20,7 @@
         {% for resume in resumes %}
         <tr>
             <td>{{forloop.counter}}</td>
+            <td>{{resume.surname}}</td>
             <td>{{resume.profession}}</td>
             <td>{{resume.skills}}</td>
             <td>{{resume.created}}</td>
