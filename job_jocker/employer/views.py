@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
-from django.contrib.auth.models import User
+from user.models import User
 
 
 def cards(request):
@@ -172,10 +172,16 @@ def choose_vacancy(request, resume_id):
 def offer_sent(request, vacancy_id, resume_id):
     resume = Resume.objects.get(id=resume_id)
     vacancy = Vacancy.objects.get(id=vacancy_id)
+    user = User.objects.get(id = request.user.id)
     new_application = Application.objects.create(resume=resume,
                                                   vacancy=vacancy,
-                                                  creator=request.user,
+                                                  creator=user,
                                                   status='Отправлено соискателю')
     new_application.save()
     return render(request, "offer_sent.html")
 
+def employer_applications(request):
+    card = Card.objects.get(user=request.user)
+    vacancies = Vacancy.objects.filter(card_id=card)
+    applications = Application.objects.filter(vacancy__in = vacancies)
+    return render(request, "employer_applications.html", {'applications': applications})

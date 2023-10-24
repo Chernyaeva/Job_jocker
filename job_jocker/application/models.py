@@ -1,6 +1,6 @@
 from django.db import models
 #import user from user_app
-from django.contrib.auth.models import User
+from user.models import User
 from employer.models import Vacancy, Card
 from applicant.models import Resume
 
