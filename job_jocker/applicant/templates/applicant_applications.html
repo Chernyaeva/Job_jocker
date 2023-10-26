@@ -1,6 +1,6 @@
-{% extends 'employer_navbar.html' %}
-{% block title %} Мои приглашения {% endblock %}
-{% block employer_applications %} active {% endblock %}
+{% extends 'applicant_navbar.html' %}
+{% block title %} Мои отклики {% endblock %}
+{% block applicant_applications %} active {% endblock %}
 {% block css %}
 {% endblock %}
 {% block body %}
@@ -11,7 +11,7 @@
             <th>No</th>
             <th>Профессия</th>
             <th>Зарплата</th>
-            <th>Соискатель</th>
+            <th>Компания</th>
             <th>Статус</th>
         </tr>
     </thead>
@@ -21,9 +21,9 @@
             <td>{{forloop.counter}}</td>
             <td>{{application.resume.profession}}</td>
             <td>{{application.resume.salary}}</td>
-            <td>{{application.resume.surname}}</td>
+            <td>{{application.vacancy.card_id.legal_form}} {{application.vacancy.card_id.name}}</td>
             <td>{{application.status}}</td>
-            <td><a href="{% url 'resume_employer' application.resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
+            <td><a href="{% url 'applicant_vacancy_detail' application.vacancy.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
         </tr>
         {% endfor %}
     </tbody>

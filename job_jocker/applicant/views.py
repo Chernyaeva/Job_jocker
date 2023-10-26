@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from user.models import User
 from django.shortcuts import render, redirect
-from .models import Resume, Applicant
-from employer.models import Vacancy
+from .models import Resume, Applicant, FavoriteVacancies
+from employer.models import Vacancy, Application
 
 
 def applicant_homepage(request):
@@ -131,4 +131,47 @@ def all_vacancies_applicant(request):
 
 def applicant_vacancy_detail(request, pk):
     vacancyObj = Vacancy.objects.get(id=pk)
-    return render(request, 'applicant_vacancy_detail.html', {'vacancy': vacancyObj})
+    applicant = Applicant.objects.get(user=request.user)
+    favorite_vacancies = FavoriteVacancies.objects.filter(applicant=applicant)
+    favorite_vacancies = Vacancy.objects.filter(id__in=favorite_vacancies)
+    return render(request, 'applicant_vacancy_detail.html', {'vacancy': vacancyObj, 'favorite_vacancies':favorite_vacancies})
+
+
+def choose_resume(request, vacancy_id):
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    applicant = Applicant.objects.get(user=request.user)
+    resumes = Resume.objects.filter(applicant=applicant)
+    return render(request, "choose_resume.html", {'resumes':resumes, 'vacancy':vacancy})
+
+
+def application_sent(request, vacancy_id, resume_id):
+    resume = Resume.objects.get(id=resume_id)
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    user = User.objects.get(id = request.user.id)
+    new_application = Application.objects.create(resume=resume,
+                                                  vacancy=vacancy,
+                                                  creator=user,
+                                                  status='Отправлено работодателю')
+    new_application.save()
+    return render(request, "application_sent.html")
+
+def applicant_applications(request):
+    applicant = Applicant.objects.get(user=request.user)
+    resumes = Resume.objects.filter(applicant = applicant)
+    applications = Application.objects.filter(resume__in = resumes)
+    return render(request, "applicant_applications.html", {'applications': applications})
+
+
+def add_favorite_vacancy(request, vacancy_id):
+    applicant = Applicant.objects.get(user=request.user)
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    new_favorite_vacancy = FavoriteVacancies.objects.create(applicant=applicant, vacancy=vacancy)
+    new_favorite_vacancy.save()
+    return render(request, "add_favorite_vacancy.html")
+
+
+def favorite_vacancies(request):
+    applicant = Applicant.objects.get(user=request.user)
+    favorite_vacancies = FavoriteVacancies.objects.filter(applicant=applicant)
+    vacancies = Vacancy.objects.filter(id__in=favorite_vacancies)
+    return render(request, "favorite_vacancies.html", {'vacancies':vacancies})

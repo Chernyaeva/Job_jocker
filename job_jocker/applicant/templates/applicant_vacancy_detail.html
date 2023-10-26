@@ -21,7 +21,12 @@
         <p>Уровень заработной платы: {{vacancy.salary}} рублей в месяц</p>
         <p>Адрес места работы: {{vacancy.address}}</p>
         <p>Описание: {{vacancy.description}} </p>
-
+        <div class="mt-3">
+            <a href="{% url 'choose_resume' vacancy.id %}" class="btn" style="background-color: #666666; color: white; width: 9rem;">Откликнуться</a>
+            {% if vacancy not in favorite_vacancies %}
+                <a href="{% url 'add_favorite_vacancy' vacancy_id=vacancy.id %}" class="btn" style="background-color: #4caabb; color: white; width: 9rem;">В избранное</a>
+            {% endif %}
+        </div>
     </div>
 </div>
 </div>

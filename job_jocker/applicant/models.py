@@ -24,5 +24,14 @@ class Resume(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 
+from employer.models import Vacancy 
+
+class FavoriteVacancies(models.Model):
+    applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.vacancy.profession} в {self.vacancy.card_id.legal_form} {self.vacancy.card_id.name}"
 
 

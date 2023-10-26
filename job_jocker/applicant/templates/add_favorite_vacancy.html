@@ -1,0 +1,14 @@
+{% extends 'applicant_navbar.html' %}
+
+{% block title %} Добавить вакансию в избранное {% endblock %}
+{% block vacancies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Вакансия добавлена в избранное")
+    window.location = "{% url 'all_vacancies_applicant' %}"
+</script>
+{% endblock %}

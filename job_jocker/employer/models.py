@@ -1,7 +1,7 @@
 from django.db import models
 
 from user.models import User
-from applicant.models import Resume
+
 
 class Card(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -40,6 +40,7 @@ class Vacancy(models.Model):
         return f"{self.profession}"
 
 
+from applicant.models import Resume
 
 class FavoriteResumes(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
