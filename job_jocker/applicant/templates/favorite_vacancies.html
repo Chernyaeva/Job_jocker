@@ -1,0 +1,35 @@
+{% extends 'applicant_navbar.html' %}
+{% block title %} Вакансии: избранное {% endblock %}
+{% block favorite_vacancies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+<table class="table table-hover" id="example">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Компания</th>
+            <th>Профессия</th>
+            <th>Навыки</th>
+            <th>Дата размещения</th>
+            <th>Зарплата</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vacancy in vacancies %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{vacancy.card_id.legal_form}} {{vacancy.card_id.name}}</td>
+            <td>{{vacancy.profession}}</td>
+            <td>{{vacancy.skills}}</td>
+            <td>{{vacancy.created}}</td>
+            <td>{{vacancy.salary}}</td>
+            <td><a href="{% url 'applicant_vacancy_detail' vacancy.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+ </h6>
+</div>
+{% endblock %}
