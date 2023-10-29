@@ -1,0 +1,47 @@
+{% extends 'applicant_navbar.html' %}
+
+{% block title %} Описание вакансии {% endblock %}
+{% block applicant_applications %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4 shadow-lg py-3 mb-4">
+<div class="row">
+    <div class="col-md-5">
+        <img src="{{vacancy.card_id.logo.url}}" alt="" width="250px" height="250px">
+    </div>
+    <div class="col-md-6">
+        <h2>{{vacancy.card_id.legal_form}} {{vacancy.card_id.name}} </h2>
+        <p>Контактный телефон: {{vacancy.card_id.phone}}</p>
+        <p>Электронная почта: {{vacancy.card_id.mail}}</p>
+        <p>Профессия: {{vacancy.profession}}</p>
+        <p>Навыки: {{vacancy.skills}}</p>
+        <p>Образование: {{vacancy.education}}</p>
+        <p>Опыт: {{vacancy.experience}}</p>
+        <p>Уровень заработной платы: {{vacancy.salary}} рублей в месяц</p>
+        <p>Адрес места работы: {{vacancy.address}}</p>
+        <p>Описание: {{vacancy.description}} </p>
+        <div class="mt-3">
+            {% if application.creator.id == user.id %}
+                {% if application.status == 'Отправлено' %}
+                     
+                {% elif application.status == 'Принято' %}
+                         
+                {% elif application.status == 'Отклонено' %}
+                     
+                {% endif %}     
+            {% else %}    
+                {% if application.status == 'Отправлено' %}
+                    <a href="{% url 'vacancy_answer' application_id=application.id action='ACCEPT' %}" type="submit" class="btn" style="background-color: #03926e; color: white; width: 8rem;">Принять</a> 
+                    <a href="{% url 'vacancy_answer' application_id=application.id action='REJECT' %}" type="submit" class="btn" style="background-color: #b66868; color: white; width: 8rem;">Отклонить</a> 
+                {% elif application.status == 'Принято' %}
+
+                {% elif application.status == 'Отклонено' %}
+
+                {% endif %} 
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

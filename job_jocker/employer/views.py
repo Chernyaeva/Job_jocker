@@ -176,7 +176,7 @@ def offer_sent(request, vacancy_id, resume_id):
     new_application = Application.objects.create(resume=resume,
                                                   vacancy=vacancy,
                                                   creator=user,
-                                                  status='Отправлено соискателю')
+                                                  status='Отправлено')
     new_application.save()
     return render(request, "offer_sent.html")
 
@@ -185,3 +185,20 @@ def employer_applications(request):
     vacancies = Vacancy.objects.filter(card_id=card)
     applications = Application.objects.filter(vacancy__in = vacancies)
     return render(request, "employer_applications.html", {'applications': applications})
+
+def employer_application_detail(request, application_id):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    application = Application.objects.get(id=application_id)
+    applcant = Applicant.objects.get(id=application.resume.applicant.id)
+    resume = Resume.objects.get(id=application.resume.id)
+    return render(request, 'employer_application_detail.html',{'application':application,'applcant':applcant,'resume':resume})
+
+def resume_answer(request, application_id, action):
+    application = Application.objects.get(id=application_id)
+    if action == 'ACCEPT':
+        application.status = 'Принято'
+    else:
+        application.status = 'Отклонено'    
+    application.save()
+    return render(request, "resume_answer.html", {'action': action})

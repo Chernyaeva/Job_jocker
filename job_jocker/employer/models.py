@@ -13,7 +13,7 @@ class Card(models.Model):
     inn = models.IntegerField(default=0)
     phone = models.CharField(max_length=20)
     web_site = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to='profile_images', default="logo_images/default_logo.jpg")
+    logo = models.ImageField(upload_to='logo_images', default="logo_images/default_logo.jpg")
     is_posted = models.BooleanField(default=False, null=True)
     admin_comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
