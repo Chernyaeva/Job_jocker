@@ -22,8 +22,24 @@
             <td>{{application.resume.profession}}</td>
             <td>{{application.resume.salary}}</td>
             <td>{{application.vacancy.card_id.legal_form}} {{application.vacancy.card_id.name}}</td>
-            <td>{{application.status}}</td>
-            <td><a href="{% url 'applicant_vacancy_detail' application.vacancy.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
+            {% if application.creator.id == user.id %}
+                {% if application.status == 'Отправлено' %}
+                    <td style="font-weight: bold">Отправлено работодателю</td>
+                {% elif application.status == 'Принято' %}
+                    <td style="color: rgb(16, 148, 108); font-weight: bold" >Принято работодателем</td>    
+                {% elif application.status == 'Отклонено' %}
+                    <td style="color: crimson; font-weight: bold" >Отклонено работодателем</td>
+                {% endif %}     
+            {% else %}    
+                {% if application.status == 'Отправлено' %}
+                    <td style="color:dodgerblue; font-weight: bold">Приглашение от работодателя</td>
+                {% elif application.status == 'Принято' %}
+                    <td style="color: rgb(16, 148, 108); font-weight: bold" >Приглашение принято</td>    
+                {% elif application.status == 'Отклонено' %}
+                    <td style="color: crimson; font-weight: bold" >Приглашение отклонено</td>
+                {% endif %} 
+            {% endif %}
+            <td><a href="{% url 'applicant_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
         </tr>
         {% endfor %}
     </tbody>

@@ -1,0 +1,18 @@
+{% extends 'applicant_navbar.html' %}
+
+{% block title %} Приглашение на работу {% endblock %}
+{% block  applicant_applications %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    {% if action == "ACCEPT" %}
+        alert("Приглашение принято")
+    {% elif action == "REJECT" %}
+        alert("Приглашение отклонено")
+    {% endif %}
+    window.location = "{% url 'applicant_applications' %}"
+</script>
+{% endblock %}

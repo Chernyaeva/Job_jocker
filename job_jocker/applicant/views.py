@@ -151,7 +151,7 @@ def application_sent(request, vacancy_id, resume_id):
     new_application = Application.objects.create(resume=resume,
                                                   vacancy=vacancy,
                                                   creator=user,
-                                                  status='Отправлено работодателю')
+                                                  status='Отправлено')
     new_application.save()
     return render(request, "application_sent.html")
 
@@ -160,6 +160,23 @@ def applicant_applications(request):
     resumes = Resume.objects.filter(applicant = applicant)
     applications = Application.objects.filter(resume__in = resumes)
     return render(request, "applicant_applications.html", {'applications': applications})
+
+def applicant_application_detail(request, application_id):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    application = Application.objects.get(id=application_id)
+    vacancy = Vacancy.objects.get(id=application.vacancy.id)
+    resume = Resume.objects.get(id=application.resume.id)
+    return render(request, 'applicant_application_detail.html',{'application':application,'vacancy':vacancy,'resume':resume})
+
+def vacancy_answer(request, application_id, action):
+    application = Application.objects.get(id=application_id)
+    if action == 'ACCEPT':
+        application.status = 'Принято'
+    else:
+        application.status = 'Отклонено'    
+    application.save()
+    return render(request, "vacancy_answer.html", {'action': action})
 
 
 def add_favorite_vacancy(request, vacancy_id):

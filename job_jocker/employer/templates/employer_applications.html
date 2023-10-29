@@ -22,8 +22,24 @@
             <td>{{application.resume.profession}}</td>
             <td>{{application.resume.salary}}</td>
             <td>{{application.resume.surname}}</td>
-            <td>{{application.status}}</td>
-            <td><a href="{% url 'resume_employer' application.resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
+            {% if application.creator.id == user.id %}
+                {% if application.status == 'Отправлено' %}
+                    <td style="font-weight: bold">Приглашение отправлено</td>
+                {% elif application.status == 'Принято' %}
+                    <td style="color: rgb(16, 148, 108); font-weight: bold" >Приглашение принято</td>    
+                {% elif application.status == 'Отклонено' %}
+                    <td style="color: crimson; font-weight: bold" >Приглашение отклонено</td>
+                {% endif %}     
+            {% else %}    
+                {% if application.status == 'Отправлено' %}
+                    <td style="color:dodgerblue; font-weight: bold">Получено резюме</td>
+                {% elif application.status == 'Принято' %}
+                    <td style="color: rgb(16, 148, 108); font-weight: bold" >Резюме принято</td>    
+                {% elif application.status == 'Отклонено' %}
+                    <td style="color: crimson; font-weight: bold" >Резюме отклонено</td>
+                {% endif %} 
+            {% endif %}
+            <td><a href="{% url 'employer_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
         </tr>
         {% endfor %}
     </tbody>
