@@ -1,0 +1,36 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Страница администратора {% endblock %}
+{% block company %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+<table class="table table-hover" id="example">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>ОПП</th>
+            <th>Название</th>
+            <th>Адрес</th>
+            <th>Дата размещения</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for company in companies %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{company.legal_form}}</td>
+            <td>{{company.name}}</td>
+            <td>{{company.address}}</td>
+            <td>{{company.created}}</td>
+            <td>{{company.status}}</td>
+            <td><a href="/company_detail/{{company.id}}/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+

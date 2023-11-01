@@ -1,0 +1,26 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Модерация карточки компании {% endblock %}
+{% block company %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                        <label>Комментарий от модератора</label>
+                        <input type="text" class="form-control mt-2" name="comment" id="comment" required>
+                <input type="submit" value="Отправить" class="btn mt-4" accept="image/*" style="background-color: #666666; color: white; font-size: normal; width: 8rem;" placeholder="comment">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Данные компании отправлены на доработку")
+    window.location = window.location = "/admin_site/all_company"
+    {% endif %}
+</script>
+{% endblock %}

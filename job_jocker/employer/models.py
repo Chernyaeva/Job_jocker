@@ -13,9 +13,13 @@ class Card(models.Model):
     inn = models.IntegerField(default=0)
     phone = models.CharField(max_length=20)
     web_site = models.CharField(max_length=100)
+    status = models.CharField(max_length=12, choices=[('ПУБЛИКАЦИЯ', 'ПУБЛИКАЦИЯ'),
+                                                         ('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'),
+                                                         ('ДОРАБОТКА', 'ДОРАБОТКА')], default='РАССМОТРЕНИЕ')
     logo = models.ImageField(upload_to='logo_images', default="logo_images/default_logo.jpg")
     is_posted = models.BooleanField(default=False, null=True)
     admin_comment = models.TextField(null=True, blank=True)
+    date_comment = models.DateTimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=10, default='employer')
 
@@ -32,8 +36,12 @@ class Vacancy(models.Model):
     salary = models.IntegerField()
     description = models.TextField()
     address = models.CharField(max_length=300)
-    is_posted = models.BooleanField(default=False)
+    status = models.CharField(max_length=12, choices=[('ПУБЛИКАЦИЯ', 'ПУБЛИКАЦИЯ'),
+                                                         ('ЧЕРНОВИК', 'ЧЕРНОВИК'),
+                                                         ('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'),
+                                                         ('ДОРАБОТКА', 'ДОРАБОТКА')], default='РАССМОТРЕНИЕ')
     admin_comment = models.TextField()
+    date_comment = models.DateTimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

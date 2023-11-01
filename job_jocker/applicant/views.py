@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
+
 from user.models import User
 from django.shortcuts import render, redirect
 from .models import Resume, Applicant, FavoriteVacancies
@@ -114,21 +116,28 @@ def edit_resume(request, myid):
             my_resume.save()
             alert = True
             return render(request, 'resume_edit.html', {'alert_1': alert})
+        elif request.POST['action'] == 'Комментарий':
+             comment = my_resume.admin_comment
+             date_comment = my_resume.date_comment
+             return render(request, "resume_admin_comment.html", {'comment': comment, 'date_comment': date_comment, 'id': my_resume.id})
         alert = True
         return render(request, 'resume_edit.html', {'alert_2': alert})
     return render(request, 'resume_edit.html', {'resume': my_resume})
 
 
 
-
 def all_vacancies_applicant(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
-    all_vacancies_applicant = Vacancy.objects.all()
-    return render(request, "all_vacancies_applicant.html", {'all_vacancies_applicant': all_vacancies_applicant})
+    vacancies = []
+    all_public_vacancy = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ')
+    for vacancy in all_public_vacancy:
+        if vacancy.card_id.status == 'ПУБЛИКАЦИЯ':
+            vacancies.append(vacancy)
+    return render(request, "all_vacancies_applicant.html", {'vacancies': vacancies})
 
 
-
+@login_required()
 def applicant_vacancy_detail(request, pk):
     vacancyObj = Vacancy.objects.get(id=pk)
     applicant = Applicant.objects.get(user=request.user)

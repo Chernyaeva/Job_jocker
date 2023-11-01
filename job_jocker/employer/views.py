@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
@@ -41,6 +42,7 @@ def employer_homepage(request):
         employer.inn = inn
         employer.description = description
         employer.address = address
+        employer.status = 'РАССМОТРЕНИЕ'
 
         employer.save()
         try:
@@ -64,7 +66,7 @@ def all_vacancy(request):
 def all_resumes_employer(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
-    resumes = Resume.objects.all()
+    resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ')
     return render(request, "all_resumes_employer.html", {'resumes':resumes})
 
 
@@ -130,6 +132,8 @@ def vacancy_new(request):
    return render(request, "vacancy_new.html")
 
 
+
+@login_required()
 def vacancy_delete(request, myid):
     Vacancy.objects.filter(id=myid).delete()
     return render(request, "vacancy_delete.html")
@@ -154,37 +158,59 @@ def vacancy_edit(request, myid):
         my_vacancy.salary = salary
         my_vacancy.address = address
         my_vacancy.description = description
-        my_vacancy.is_posted = False
-        my_vacancy.save()
-        alert = True
-        return render(request, "vacancy_edit.html", {'alert':alert})
+        if request.POST['action'] == 'Опубликовать':
+            my_vacancy.status = 'РАССМОТРЕНИЕ'
+            my_vacancy.save()
+            alert_1 = True
+            return render(request, "vacancy_edit.html", {'alert_1': alert_1})
+        elif request.POST['action'] == 'Сохранить':
+            my_vacancy.status = 'ЧЕРНОВИК'
+            my_vacancy.save()
+            alert_2 = True
+            return render(request, "vacancy_edit.html", {'alert_2': alert_2})
+        elif request.POST['action'] == 'Комментарий':
+             comment = my_vacancy.admin_comment
+             date_comment = my_vacancy.date_comment
+             return render(request, "vacancy_admin_comment.html", {'comment': comment, 'date_comment': date_comment, 'id': my_vacancy.id})
     return render(request, 'vacancy_edit.html', {'vacancy': my_vacancy})
 
 
 
+
+@login_required()
 def choose_vacancy(request, resume_id):
     card = Card.objects.get(user=request.user)
     resume = Resume.objects.get(id=resume_id)
-    vacancies = Vacancy.objects.filter(card_id = card)
+    vacancies = Vacancy.objects.filter(card_id = card).filter(status='ПУБЛИКАЦИЯ')
     return render(request, "choose_vacancy.html", {'resume':resume, 'vacancies':vacancies})
 
 
+@login_required()
 def offer_sent(request, vacancy_id, resume_id):
     resume = Resume.objects.get(id=resume_id)
     vacancy = Vacancy.objects.get(id=vacancy_id)
-    user = User.objects.get(id = request.user.id)
-    new_application = Application.objects.create(resume=resume,
+    user = User.objects.get(id=request.user.id)
+    if Application.objects.filter(resume=resume).filter(vacancy=vacancy) is not None:
+        alert = True
+        return render(request, "offer_sent.html", {'alert_repeat': alert})
+    else:
+        new_application = Application.objects.create(resume=resume,
                                                   vacancy=vacancy,
                                                   creator=user,
                                                   status='Отправлено')
-    new_application.save()
-    return render(request, "offer_sent.html")
+        new_application.save()
+        alert = True
+        return render(request, "offer_sent.html", {'alert': alert})
 
+
+
+@login_required()
 def employer_applications(request):
     card = Card.objects.get(user=request.user)
     vacancies = Vacancy.objects.filter(card_id=card)
     applications = Application.objects.filter(vacancy__in = vacancies)
     return render(request, "employer_applications.html", {'applications': applications})
+
 
 def employer_application_detail(request, application_id):
     if not request.user.is_authenticated:
@@ -194,6 +220,8 @@ def employer_application_detail(request, application_id):
     resume = Resume.objects.get(id=application.resume.id)
     return render(request, 'employer_application_detail.html',{'application':application,'applcant':applcant,'resume':resume})
 
+
+@login_required()
 def resume_answer(request, application_id, action):
     application = Application.objects.get(id=application_id)
     if action == 'ACCEPT':
@@ -202,3 +230,12 @@ def resume_answer(request, application_id, action):
         application.status = 'Отклонено'    
     application.save()
     return render(request, "resume_answer.html", {'action': action})
+
+
+@login_required()
+def employer_admin_comment(request):
+    card = Card.objects.get(user=request.user)
+    comment = card.admin_comment
+    date = card.date_comment
+    context = {'comment': comment, 'date_comment': date}
+    return render(request, 'employer_admin_comment.html', context)

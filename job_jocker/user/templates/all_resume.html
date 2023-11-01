@@ -1,6 +1,7 @@
-{% extends 'employer_navbar.html' %}
-{% block title %} Резюме соискателей {% endblock %}
-{% block resumes %} active {% endblock %}
+{% extends 'admin_navbar.html' %}
+
+{% block title %} Модерация компаний {% endblock %}
+{% block resume %} active {% endblock %}
 {% block css %}
 {% endblock %}
 {% block body %}
@@ -11,9 +12,8 @@
             <th>No</th>
             <th>ФИО Соискателя</th>
             <th>Профессия</th>
-            <th>Навыки</th>
             <th>Дата размещения</th>
-            <th>Зарплата</th>
+            <th>Статус</th>
         </tr>
     </thead>
     <tbody>
@@ -22,14 +22,13 @@
             <td>{{forloop.counter}}</td>
             <td>{{resume.name}} {{resume.surname}}</td>
             <td>{{resume.profession}}</td>
-            <td>{{resume.skills}}</td>
             <td>{{resume.created}}</td>
-            <td>{{resume.salary}}</td>
-            <td><a href="{% url 'resume_employer' resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
+            <td>{{resume.status}}</td>
+            <td><a href="/admin_site/resume_detail/{{resume.id}}/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
- </h6>
 </div>
 {% endblock %}
+

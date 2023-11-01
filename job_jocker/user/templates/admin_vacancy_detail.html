@@ -1,0 +1,89 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Модерация вакансии компании {% endblock %}
+{% block vacancy %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                 <div class="row">
+                    <div class="form-group col-md-12">
+                        <label>Название профессии</label>
+                        <input type="text" class="form-control mt-2" name="profession" id="profession"
+                            value="{{vacancy.profession}}" readonly>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Требуемый опыт</label>
+                        <input type="text" class="form-control mt-2" name="experience" id="experience"
+                        value="{{vacancy.experience}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Навыки</label>
+                        <input type="text" class="form-control mt-2" name="skills" id="skills"
+                            value="{{vacancy.skills}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Образование</label>
+                        <input type="text" class="form-control mt-2" name="education" id="education"
+                            value="{{vacancy.education}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Зарплата</label>
+                        <input type="text" class="form-control mt-2" name="salary" id="salary"
+                            value="{{vacancy.salary}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-12">
+                        <label>Описание</label>
+                        <input type="text" class="form-control mt-2" name="description" id="description"
+                            value="{{vacancy.description}}" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="form-group col-md-6">
+                        <label>Адрес</label>
+                        <input type="text" class="form-control mt-2" name="address" id="address" value="{{vacancy.address}}" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Контактный телефон</label>
+                        <input type="tel" class="form-control mt-2" name="phone" id="phone" value="{{vacancy.card_id.phone}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                        <label>Статус на сайте</label>
+                        <input type="text" class="form-control mt-2" name="status" id="status"
+                            value="{{vacancy.status}}" readonly>
+                </div>
+            <div class="mt-3">
+                <input type="submit" name="action" value="Публикация" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 7rem;">
+                <input type="submit" name="action" value="Доработка" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 7rem;">
+                <input type="submit" name="action" value="Удалить" class="btn btn-danger">
+            </div>
+            </form>
+
+        </div>
+        <div class="col-sm-4 mt-5 text-center">
+            <img src="{{vacancy.card_id.logo.url}}" alt="" width="250px" height="250px">
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+{% endblock %}
