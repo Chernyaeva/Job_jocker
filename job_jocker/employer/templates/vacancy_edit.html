@@ -27,7 +27,9 @@
                         <input type="text" class="form-control" name="description" id="description" value="{{vacancy.description}}" required>
                         
                         <br>
-                        <input type="submit" value="Сохранить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 9rem;">
+                        <input type="submit" name="action" value="Сохранить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 9rem;">
+                        <input type="submit" name="action" value="Опубликовать" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+                        <input type="submit" name="action" value="Комментарий" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
                     </div>
                 </div>
             </form>
@@ -37,8 +39,12 @@
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Вакансия отредактирована")
+    {% if alert_1 %}
+    alert("Вакансия отправлена на публикацию")
+    window.location = "{% url 'employer_vacancies'%}"
+    {% endif %}
+    {% if alert_2 %}
+    alert("Вакансия сохранена в черновике")
     window.location = "{% url 'employer_vacancies'%}"
     {% endif %}
 </script>

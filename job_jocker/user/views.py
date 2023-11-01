@@ -1,16 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from datetime import datetime
 
-from applicant.models import Applicant
-from employer.models import Card
+from applicant.models import Applicant, Resume
+from employer.models import Card, Vacancy
 from user.models import User
 
 
 def index(request):
     return render(request, "index.html")
 
-
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('/')
@@ -25,16 +27,23 @@ def user_login(request):
             password = request.POST['password']
             user = authenticate(username=username, password=password)
 
-            if user is not None:
-                my_user = User.objects.get(email=username)
-                if my_user.status == 'Ищу работу':
-                    login(request, user)
-                    return redirect("/applicant/homepage")
 
-                elif my_user.status == 'Ищу сотрудника':
-                    login(request, user)
-                    return redirect("/employer/homepage")
-                else:
+            if user is not None:
+                try:
+                    my_user = User.objects.get(email=username)
+                    if my_user.status == 'Админ':
+                        login(request, user)
+                        return redirect("/admin_site/all_company/")
+                    elif my_user.status == 'Ищу работу':
+                        login(request, user)
+                        return redirect("/applicant/homepage")
+                    elif my_user.status == 'Ищу сотрудника':
+                        login(request, user)
+                        return redirect("/employer/homepage")
+                    else:
+                        thank = True
+                        return render(request, "login.html", {"thank": thank})
+                except:
                     thank = True
                     return render(request, "login.html", {"thank": thank})
             else:
@@ -79,4 +88,121 @@ def user_signup(request):
     return render(request, "signup.html")
 
 
+@login_required()
+def all_company(request):
+    companies = Card.objects.all().order_by('-status')
+    return render(request, "all_company.html", {'companies': companies})
+
+
+@login_required()
+def company_detail(request, myid):
+    company = Card.objects.get(id=myid)
+    if request.method == "POST":
+        if request.POST['action'] == 'Публикация':
+            company.status = 'ПУБЛИКАЦИЯ'
+            company.save()
+            return render(request, 'admin_navbar.html', {'alert': True})
+        elif request.POST['action'] == 'Доработка':
+            company.status = 'ДОРАБОТКА'
+            company.save()
+            return redirect(f'/admin_site/company_comment/{company.id}/')
+        elif request.POST['action'] == 'Удалить':
+            company.delete()
+            return render(request, 'admin_navbar.html', {'alert_delete': True})
+    return render(request, 'company_detail.html', {'company': company})
+
+
+@login_required()
+def company_comment(request, myid):
+    company = Card.objects.get(id=myid)
+    if request.method == "POST":
+        comment = request.POST['comment']
+        company.admin_comment = comment
+        company.date_comment = datetime.now()
+        company.save()
+        return render(request, 'company_comment.html', {'alert': True})
+    return render(request, 'company_comment.html')
+
+
+def index_all_company(request):
+    companies = Card.objects.all().filter(status='ПУБЛИКАЦИЯ')
+    companies.order_by('created')
+    return render(request, "index_all_company.html", {'companies': companies})
+
+
+def index_company_detail(request, myid):
+    company = Card.objects.get(id=myid)
+    return render(request, 'index_company_detail.html', {'company': company})
+
+
+@login_required()
+def all_vacancy(request):
+    vacancies = Vacancy.objects.exclude(status='ЧЕРНОВИК').order_by('-status')
+    return render(request, "all_vacancy.html", {'vacancies': vacancies})
+
+
+@login_required()
+def vacancy_detail(request, myid):
+    vacancy = Vacancy.objects.get(id=myid)
+    if request.method == "POST":
+        if request.POST['action'] == 'Публикация':
+            vacancy.status = 'ПУБЛИКАЦИЯ'
+            vacancy.save()
+            return render(request, 'admin_navbar.html', {'alert_vacancy': True})
+        elif request.POST['action'] == 'Доработка':
+            vacancy.status = 'ДОРАБОТКА'
+            vacancy.save()
+            return redirect(f'/admin_site/vacancy_comment/{vacancy.id}/')
+        elif request.POST['action'] == 'Удалить':
+            vacancy.delete()
+            return render(request, 'admin_navbar.html', {'alert_vacancy_delete': True})
+    return render(request, 'admin_vacancy_detail.html', {'vacancy': vacancy})
+
+
+@login_required()
+def vacancy_comment(request, myid):
+    vacancy = Vacancy.objects.get(id=myid)
+    if request.method == "POST":
+        comment = request.POST['comment']
+        vacancy.admin_comment = comment
+        vacancy.date_comment = datetime.now()
+        vacancy.save()
+        return render(request, 'vacancy_comment.html', {'alert': True})
+    return render(request, 'vacancy_comment.html')
+
+
+@login_required()
+def all_resume(request):
+    resumes = Resume.objects.exclude(status='ЧЕРНОВИК').order_by('-status')
+    return render(request, "all_resume.html", {'resumes': resumes})
+
+
+@login_required()
+def resume_detail(request, myid):
+    resume = Resume.objects.get(id=myid)
+    if request.method == "POST":
+        if request.POST['action'] == 'Публикация':
+            resume.status = 'ПУБЛИКАЦИЯ'
+            resume.save()
+            return render(request, 'admin_navbar.html', {'alert_resume': True})
+        elif request.POST['action'] == 'Доработка':
+            resume.status = 'ДОРАБОТКА'
+            resume.save()
+            return redirect(f'/admin_site/resume_comment/{resume.id}/')
+        elif request.POST['action'] == 'Удалить':
+            resume.delete()
+            return render(request, 'admin_navbar.html', {'alert_resume_delete': True})
+    return render(request, 'admin_resume_detail.html', {'resume': resume})
+
+
+@login_required()
+def resume_comment(request, myid):
+    resume = Resume.objects.get(id=myid)
+    if request.method == "POST":
+        comment = request.POST['comment']
+        resume.admin_comment = comment
+        resume.date_comment = datetime.now()
+        resume.save()
+        return render(request, 'resume_comment.html', {'alert': True})
+    return render(request, 'resume_comment.html')
 

@@ -19,9 +19,11 @@ class Resume(models.Model):
     education = models.CharField(max_length=256)
     experience = models.TextField(default='Без опыта', blank=False)
     salary = models.IntegerField(default=0, null=True, blank=True)
-    status = models.CharField(max_length=12, choices=[('ЧЕРНОВИК', 'ЧЕРНОВИК'), ('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'), ('ОПУБЛИКОВАНО', 'ОПУБЛИКОВАНО'),
-                                                      ('ОТКЛОНЕНО', 'ОТКЛОНЕНО')], default='ЧЕРНОВИК')
+    status = models.CharField(max_length=12, choices=[('ЧЕРНОВИК', 'ЧЕРНОВИК'), ('РАССМОТРЕНИЕ', 'РАССМОТРЕНИЕ'), ('ПУБЛИКАЦИЯ', 'ПУБЛИКАЦИЯ'),
+                                                      ('ДОРАБОТКА', 'ДОРАБОТКА')], default='ЧЕРНОВИК')
     created = models.DateTimeField(auto_now_add=True)
+    admin_comment = models.TextField(null=True, blank=True)
+    date_comment = models.DateTimeField(null=True)
 
 
 from employer.models import Vacancy 

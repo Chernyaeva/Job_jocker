@@ -1,0 +1,21 @@
+{% extends 'applicant_navbar.html' %}
+{% block title %} Комментарий от админа {% endblock %}
+{% block resumes %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <label>Сообщение от адмиристратора сайта</label>
+                    <input type="text" class="form-control mt-2" name="comment" id="comment" value="{{comment}}" readonly>
+                    <label>Дата сообщения</label>
+                    <input type="text" class="form-control mt-2" name="date_comment" id="date_comment"  value="{{date_comment}}" readonly>
+                    <a href="/applicant/all_resumes/resume_detail/{{id}}/resume_edit/" class="btn mt-4"  style="background-color: #666666; color: white; font-size: normal; width: 10rem;" placeholder="comment">Вернуться</a>
+            </form>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+{% endblock %}

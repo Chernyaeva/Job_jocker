@@ -16,6 +16,7 @@ urlpatterns = [
     path('favorite_resumes/', views.favorite_resumes, name="favorite_resumes"),
     path("offer_sent/<int:vacancy_id>/<int:resume_id>/", views.offer_sent, name="offer_sent"),
     path('employer_applications/', views.employer_applications, name="employer_applications"),
+    path('employer_admin_comment/', views.employer_admin_comment, name="employer_admin_comment"),
     path('employer_application_detail/<int:application_id>/', views.employer_application_detail, name="employer_application_detail"),
     path('resume_answer/<int:application_id>/<str:action>/', views.resume_answer, name="resume_answer"),
 ]

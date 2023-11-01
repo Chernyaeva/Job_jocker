@@ -25,8 +25,11 @@ urlpatterns = [
     path('login/', views.user_login, name="login"),
     path('signup/', views.user_signup, name='signup'),
     path('logout/', views.user_logout, name="logout"),
+    path('all_company/', views.index_all_company, name='index_all_company'),
+    path('all_company/company_detail/<int:myid>/', views.index_company_detail, name='index_company_detail'),
     path('applicant/', include('applicant.urls')),
     path('employer/', include('employer.urls')),
+    path('admin_site/', include('user.urls')),
     # path('application/', include('application.urls')),
 ]
 
