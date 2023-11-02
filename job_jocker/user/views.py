@@ -7,10 +7,12 @@ from datetime import datetime
 from applicant.models import Applicant, Resume
 from employer.models import Card, Vacancy
 from user.models import User
+from news.models import News
 
 
 def index(request):
-    return render(request, "index.html")
+    news = News.objects.all()
+    return render(request, 'index.html', {'news':news})
 
 @login_required
 def user_logout(request):

@@ -5,8 +5,38 @@
 {% endblock %}
 {% block body %}
 {% load static %}
-<div class="container-fluid mt-2">
-    <img src="{% static 'recruting.png' %}" alt="" width="100%" height="450px">
+
+<div class="container-fluid mt-2 bg-image"
+    style="
+    background-image: url({% static 'recruting.png' %});
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    "
+    >
+    {% for news_item in news %}
+        <div class="card w-75" 
+            style="max-width: 80%; background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
+            <div class="row g-0">
+                <div class="col-md-4"
+                    style="width: auto">
+                        <img
+                            src="{{news_item.picture.url}}"
+                            alt=""
+                            class="img-fluid rounded-start"
+                            style="width: 200px;"
+                        />
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body">
+                    <h5 class="card-title">{{news_item.headline}}</h5>
+                    <p class="card-text">{{news_item.text}}</p>
+                    <!-- <a href="{% url 'news_detail' news_item.id %}" class="btn btn-primary">Подробнее</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
