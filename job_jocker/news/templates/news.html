@@ -1,0 +1,48 @@
+{% extends 'basic.html' %}
+
+{% block title %} Job Jocker {% endblock %}
+{% block news %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% load static %}
+
+<div class="container-fluid mt-2 bg-image"
+    style="
+    background-image: url({% static 'recruting.png' %});
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+    padding-left: 20%;
+    padding-right: 20%;
+    "
+    >
+    <div class="card w-100" 
+        style="background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
+        <h1 class="card-title" style="text-align: center;">НОВОСТИ</h1>
+    </div>
+    {% for news_item in news %}
+        <div class="card w-100" 
+            style="background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
+            <div class="row g-0">
+                <div class="col-md-4"
+                    style="width: auto">
+                        <img
+                            src="{{news_item.picture.url}}"
+                            alt=""
+                            class="img-fluid rounded-start"
+                            style="width: 200px;"
+                        />
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body">
+                    <h5 class="card-title">{{news_item.headline}}</h5>
+                    <p class="card-text">{{news_item.text}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

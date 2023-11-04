@@ -31,7 +31,7 @@ urlpatterns = [
     path('applicant/', include('applicant.urls')),
     path('employer/', include('employer.urls')),
     path('admin_site/', include('user.urls')),
-    path('news_detail/<int:news_item_id>/', news_views.news_detail, name="news_detail"),
+    path('news/', include('news.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

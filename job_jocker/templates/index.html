@@ -2,6 +2,101 @@
 
 {% block title %} Job Jocker {% endblock %}
 {% block css %}
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .site-footer{
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #666666;
+            height: auto;
+            width: 100vw;
+
+            padding-top: 5px;
+            color: #fff;
+        }
+        .footer-content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .footer-content h3{
+            font-size: 2.1rem;
+            font-weight: 500;
+            line-height: 3rem;
+        }
+        .footer-content p{
+            max-width: 500px;
+            margin: 3px auto;
+            line-height: 28px;
+            font-size: 14px;
+            color: #cacdd2;
+        }
+        .socials{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0 1rem 0;
+        }
+        .socials li{
+            margin: 0 10px;
+
+        }
+        .socials a{
+            text-decoration: none;
+            color: #fff;
+            padding: 5px;
+
+        }
+        .socials a i{
+            font-size: 3rem;
+            width: 20px;
+
+
+            transition: color .4s ease;
+
+        }
+        .socials a:hover i{
+            color: #5aa5b9;
+        }
+
+        .footer-bottom{            
+        background-color: var(--color-sub-light);
+        width: 100vw;
+        padding: 20px;
+        padding-bottom: 40px;
+        text-align: center;
+        }
+        .footer-bottom p{
+        color:#fff;
+        float: left;
+            font-size: 14px;
+            word-spacing: 2px;
+        
+        }
+        .footer-bottom p a{
+        color:#5aa5b9;
+        font-size: 16px;
+        text-decoration: none;
+        }
+        .footer-bottom span{
+            text-transform: uppercase;
+            opacity: .4;
+            font-weight: 200;
+        }
+        .footer-icons{
+        color: #ccc; 
+        max-height: 32px; 
+        }
+    </style>
 {% endblock %}
 {% block body %}
 {% load static %}
@@ -14,30 +109,23 @@
     height: 100vh;
     "
     >
-    {% for news_item in news %}
-        <div class="card w-75" 
-            style="max-width: 80%; background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
-            <div class="row g-0">
-                <div class="col-md-4"
-                    style="width: auto">
-                        <img
-                            src="{{news_item.picture.url}}"
-                            alt=""
-                            class="img-fluid rounded-start"
-                            style="width: 200px;"
-                        />
-                </div>
-                <div class="col-md-10">
-                    <div class="card-body">
-                    <h5 class="card-title">{{news_item.headline}}</h5>
-                    <p class="card-text">{{news_item.text}}</p>
-                    <!-- <a href="{% url 'news_detail' news_item.id %}" class="btn btn-primary">Подробнее</a> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
 </div>
+    <footer class="site-footer" style="position: sticky;">
+        <div class="footer-content">
+            <h3><span class="head1">JOB</span><span class="head2">JOCKER</span></h3>
+            <p>Ресурс для поиска моднейших работников и отличной работы, например</p>
+            <ul class="socials">
+                <li><a href="#"><img class="footer-icons" alt="Telegram" src="{% static 'icons/plane.svg' %}"></a></li>
+                <li><a href="#"><img class="footer-icons" alt="Hatogram" src="{% static 'icons/hat.svg' %}"></a></li>
+                <li><a href="#"><img class="footer-icons" alt="Catogram" src="{% static 'icons/cat.svg' %}"></a></li>
+                <li><a href="#"><img class="footer-icons" alt="Birdogram" src="{% static 'icons/bird.svg' %}"></a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>Все права защищены</p>
+        </div>
+
+    </footer> 
 
 {% endblock %}
 
