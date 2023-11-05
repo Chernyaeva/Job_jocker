@@ -11,8 +11,9 @@ from news.models import News
 
 
 def index(request):
-    news = News.objects.all()
-    return render(request, 'index.html', {'news':news})
+    resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')[:5]
+    vacancies = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')[:5]
+    return render(request, 'index.html', {'resumes':resumes, 'vacancies':vacancies})
 
 @login_required
 def user_logout(request):
