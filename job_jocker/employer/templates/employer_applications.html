@@ -20,8 +20,8 @@
         {% for application in applications %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td>{{application.vacancy.profession}}</td>
-            <td>{{application.vacancy.salary}}</td>
+            <td>{{application.resume.profession}}</td>
+            <td>{{application.resume.salary}}</td>
             <td>{{application.resume.name}} {{application.resume.surname}}</td>
             <td>{{application.created}}</td>
             {% if application.creator.id == user.id %}
@@ -41,11 +41,11 @@
                     <td style="color: crimson; font-weight: bold" >Резюме отклонено</td>
                 {% endif %}
             {% endif %}
-            <td><a href="{% url 'employer_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 6rem;">Открыть</a></td>
-            <td><a href="{% url 'employer_application_delete' application.id%}" type="submit" class="btn btn-danger">Удалить</a></td>
+            <td><a href="{% url 'employer_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+ </h6>
 </div>
 {% endblock %}

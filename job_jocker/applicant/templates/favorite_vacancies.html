@@ -20,13 +20,12 @@
         {% for vacancy in vacancies %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td>{{vacancy.vacancy.card_id.legal_form}} {{vacancy.vacancy.card_id.name}}</td>
-            <td>{{vacancy.vacancy.profession}}</td>
-            <td>{{vacancy.vacancy.skills}}</td>
-            <td>{{vacancy.vacancy.created}}</td>
-            <td>{{vacancy.vacancy.salary}}</td>
-            <td><a href="{% url 'applicant_vacancy_detail' vacancy.vacancy.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 6rem;">Открыть</a></td>
-            <td><a href="{% url 'favorite_vacancy_delete' vacancy.vacancy.id%}" type="submit" class="btn btn-danger">Удалить</a>
+            <td>{{vacancy.card_id.legal_form}} {{vacancy.card_id.name}}</td>
+            <td>{{vacancy.profession}}</td>
+            <td>{{vacancy.skills}}</td>
+            <td>{{vacancy.created}}</td>
+            <td>{{vacancy.salary}}</td>
+            <td><a href="{% url 'applicant_vacancy_detail' vacancy.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
         </tr>
         {% endfor %}
     </tbody>

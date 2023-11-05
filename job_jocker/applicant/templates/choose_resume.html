@@ -15,6 +15,7 @@
                 <th>Профессия</th>
                 <th>Зарплата</th>
                 <th>Дата размещения</th>
+                <th>Статус</th>
             </tr>
         </thead>
         <tbody>
@@ -24,22 +25,12 @@
                 <td>{{resume.profession}}</td>
                 <td>{{resume.salary}}</td>
                 <td>{{resume.created}}</td>
+                <td>{{resume.status}}</td>
                 <td><a href="{% url 'application_sent' vacancy_id=vacancy.id resume_id=resume.id %}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Выбрать</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
 </div>
-{% endblock %}
-{% block js %}
-<script>
-    {% if alert %}
-    alert("Нет доcтупных резюме для отклика на вакансию. Создайте резюме в личном кабинете")
-    window.location = "{% url 'all_vacancies_applicant' %}"
-    {% endif %}
-    {% if alert_1 %}
-    alert("Дождитесь когда модератор опубликует резюме на сайте")
-    window.location = "{% url 'all_vacancies_applicant' %}"
-    {% endif %}
-</script>
 {% endblock %}

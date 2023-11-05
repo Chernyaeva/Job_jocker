@@ -9,11 +9,11 @@
 {% block js %}
 <script>
     {% if alert %}
-    alert("Отклик отправлен")
+    alert("Предложение отправлено")
     window.location = "{% url 'resumes' %}"
     {% endif %}
     {% if alert_repeat %}
-    alert("Отклик уже существует")
+    alert("Вы уже отправляли предложение данному соискателю, выберете другое резюме")
     window.location = "{% url 'resumes' %}"
     {% endif %}
 </script>
