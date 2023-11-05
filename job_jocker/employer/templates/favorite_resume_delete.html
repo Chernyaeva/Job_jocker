@@ -1,0 +1,14 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Удаление резюме из избранных {% endblock %}
+{% block favorite_resumes %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Резюме удалено из избранных")
+    window.location = "{% url 'favorite_resumes' %}"
+</script>
+{% endblock %}

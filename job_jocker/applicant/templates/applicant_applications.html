@@ -10,8 +10,9 @@
         <tr>
             <th>No</th>
             <th>Профессия</th>
-            <th>Зарплата</th>
             <th>Компания</th>
+            <th>Вакансия</th>
+            <th>Зарплата</th>
             <th>Статус</th>
         </tr>
     </thead>
@@ -20,8 +21,9 @@
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{application.resume.profession}}</td>
-            <td>{{application.resume.salary}}</td>
             <td>{{application.vacancy.card_id.legal_form}} {{application.vacancy.card_id.name}}</td>
+            <td>{{application.vacancy.profession}}</td>
+            <td>{{application.vacancy.salary}}</td>
             {% if application.creator.id == user.id %}
                 {% if application.status == 'Отправлено' %}
                     <td style="font-weight: bold">Отправлено работодателю</td>
@@ -39,11 +41,11 @@
                     <td style="color: crimson; font-weight: bold" >Приглашение отклонено</td>
                 {% endif %} 
             {% endif %}
-            <td><a href="{% url 'applicant_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
+            <td><a href="{% url 'applicant_application_detail' application.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 6rem;">Открыть</a></td>
+            <td><a href="{% url 'applicant_application_delete' application.id%}" type="submit" class="btn btn-danger">Удалить</a>
         </tr>
         {% endfor %}
     </tbody>
 </table>
- </h6>
 </div>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'applicant_navbar.html' %}
+
+{% block title %} Удалить вакансию из избранных {% endblock %}
+{% block favorite_vacancies %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Вакансия удалена из избранных")
+    window.location = "{% url 'favorite_vacancies' %}"
+</script>
+{% endblock %}
