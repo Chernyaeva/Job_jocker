@@ -19,15 +19,15 @@
         {% for resume in resumes %}
         <tr>
             <td>{{forloop.counter}}</td>
-            <td>{{resume.resume.name}} {{resume.resume.surname}}</td>
-            <td>{{resume.resume.profession}}</td>
-            <td>{{resume.resume.salary}}</td>
-            <td>{{resume.resume.created}}</td>
-            <td><a href="{% url 'resume_employer' resume.resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 6rem;">Открыть</a></td>
-            <td><a href="{% url 'favorite_resume_delete' resume.resume.id%}" type="submit" class="btn btn-danger">Удалить</a></td>
+            <td>{{resume.name}} {{resume.surname}}</td>
+            <td>{{resume.profession}}</td>
+            <td>{{resume.salary}}</td>
+            <td>{{resume.created}}</td>
+            <td><a href="{% url 'resume_employer' resume.id%}" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>        
         </tr>
         {% endfor %}
     </tbody>
 </table>
+ </h6>
 </div>
 {% endblock %}

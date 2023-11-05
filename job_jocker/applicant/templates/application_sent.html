@@ -8,13 +8,7 @@
 {% endblock %}
 {% block js %}
 <script>
-    {% if alert %}
-    alert("Отклик отправлен")
+    alert("Резюме отправлено")
     window.location = "{% url 'all_vacancies_applicant' %}"
-    {% endif %}
-    {% if alert_repeat %}
-    alert("Отклик уже существует")
-    window.location = "{% url 'all_vacancies_applicant' %}"
-    {% endif %}
 </script>
 {% endblock %}
