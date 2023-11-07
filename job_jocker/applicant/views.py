@@ -6,6 +6,7 @@ from user.models import User
 from django.shortcuts import render, redirect
 from .models import Resume, Applicant, FavoriteVacancies
 from employer.models import Vacancy, Application
+from .utils import searchVacancies
 
 
 def applicant_homepage(request):
@@ -126,7 +127,7 @@ def edit_resume(request, myid):
 
 
 
-def all_vacancies_applicant(request):
+def all_vacancies_applicant_old(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     vacancies = []
@@ -135,6 +136,14 @@ def all_vacancies_applicant(request):
         if vacancy.card_id.status == 'ПУБЛИКАЦИЯ':
             vacancies.append(vacancy)
     return render(request, "all_vacancies_applicant.html", {'vacancies': vacancies})
+
+def all_vacancies_applicant(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    vacancies, search_query = searchVacancies(request)
+    context = {'vacancies': vacancies,
+            'search_query': search_query,}
+    return render(request, 'all_vacancies_applicant.html', context)
 
 
 @login_required()

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
+from .utils import searchResumes
 from user.models import User
 
 
@@ -63,11 +64,21 @@ def all_vacancy(request):
     return render(request, "all_vacancies.html", {'vacancies': vacancies})
 
 
-def all_resumes_employer(request):
+def all_resumes_employer_old(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ')
     return render(request, "all_resumes_employer.html", {'resumes':resumes})
+
+
+
+def all_resumes_employer(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    resumes, search_query = searchResumes(request)
+    context = {'resumes': resumes,
+            'search_query': search_query,}
+    return render(request, 'all_resumes_employer.html', context)
 
 
 def resume_employer(request, myid):
