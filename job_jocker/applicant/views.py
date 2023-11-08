@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.core import paginator
 
 from user.models import User
 from django.shortcuts import render, redirect
 from .models import Resume, Applicant, FavoriteVacancies
 from employer.models import Vacancy, Application
-from .utils import searchVacancies
+from .utils import searchVacancies, paginateVacancies
 
 
 def applicant_homepage(request):
@@ -141,8 +142,9 @@ def all_vacancies_applicant(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     vacancies, search_query = searchVacancies(request)
+    custom_range, vacancies = paginateVacancies(request, vacancies, 6)
     context = {'vacancies': vacancies,
-            'search_query': search_query,}
+            'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'all_vacancies_applicant.html', context)
 
 

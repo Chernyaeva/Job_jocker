@@ -48,6 +48,7 @@
         {% endfor %}
     </tbody>
 </table>
+{% include 'pagination.html' with queryset=resumes custom_range=custom_range %}
  </h6>
 </div>
 {% endblock %}

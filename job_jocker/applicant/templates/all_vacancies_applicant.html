@@ -50,5 +50,6 @@
         {% endfor %}
     </tbody>
 </table>
+{% include 'pagination.html' with queryset=vacancies custom_range=custom_range %}
 </div>
 {% endblock %}

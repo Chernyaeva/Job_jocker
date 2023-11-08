@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Card, Vacancy, FavoriteResumes, Application
 from applicant.models import Resume, Applicant
-from .utils import searchResumes
+from .utils import searchResumes, paginateResumes
 from user.models import User
 
 
@@ -76,8 +76,9 @@ def all_resumes_employer(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     resumes, search_query = searchResumes(request)
+    custom_range, resumes = paginateResumes(request, resumes, 6)
     context = {'resumes': resumes,
-            'search_query': search_query,}
+            'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'all_resumes_employer.html', context)
 
 

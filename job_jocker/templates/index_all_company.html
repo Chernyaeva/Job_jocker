@@ -6,27 +6,46 @@
 {% endblock %}
 {% block body %}
 <div class="container mt-4">
-<table class="table table-hover" id="example">
-    <thead>
-        <tr>
-            <th>ОПП</th>
-            <th>Название</th>
-            <th>Адрес</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for company in companies %}
-        <tr>
-            <td>{{company.legal_form}}</td>
-            <td>{{company.name}}</td>
-            <td>{{company.address}}</td>
-            <td>{{company.description }}</td>
-            <td><a href="/all_company/company_detail/{{company.id}}/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <section class="text-center" style="margin-bottom: 20px;">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>Поиск по <span>компаниям</span></h2>
+            </div>
+            <form id='searchForm' class="form" action="{% url 'index_all_company' %}" method="get">
+                <div class="input-group" style="justify-content: center;">                   
+                    <div class="form-outline" style="width: 35%">                       
+                        <input class="form-control" id="formInput#search" type="search" name="search_query"
+                            placeholder="Поиск по названию, описанию, адресу" value="{{ search_query }}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>                
+                </div>
+            </form>
+        </div>
+    </section>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr>
+                <th>ОПП</th>
+                <th>Название</th>
+                <th>Адрес</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+            <tr>
+                <td>{{company.legal_form}}</td>
+                <td>{{company.name}}</td>
+                <td>{{company.address}}</td>
+                <td>{{company.description }}</td>
+                <td><a href="/all_company/company_detail/{{company.id}}/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'pagination.html' with queryset=companies custom_range=custom_range %}
 </div>
 {% endblock %}
 

@@ -1,34 +1,35 @@
 from django.db.models import Q
-from employer.models import Vacancy
+from employer.models import Card
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-def searchVacancies(request):
+def searchCards(request):
     search_query = ''
     if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
 
  
-    vacancies = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ').distinct().filter(
-        Q(profession__icontains=search_query) |
-        Q(skills__icontains=search_query) |
-        Q(description__icontains=search_query)
+    cards = Card.objects.filter(status='ПУБЛИКАЦИЯ').distinct().filter(
+        Q(name__icontains=search_query) |
+        Q(legal_form__icontains=search_query) |
+        Q(description__icontains=search_query) | 
+        Q(address__icontains=search_query) 
     )
-    return vacancies, search_query
+    return cards, search_query
 
 
-def paginateVacancies(request, vacancies, results):
+def paginateCards(request, cards, results):
 
     page = request.GET.get('page')
-    paginator = Paginator(vacancies, results)
+    paginator = Paginator(cards, results)
 
     try:
-        vacancies = paginator.page(page)
+        cards = paginator.page(page)
     except PageNotAnInteger:
         page = 1
-        vacancies = paginator.page(page)
+        cards = paginator.page(page)
     except EmptyPage:
         page = paginator.num_pages
-        vacancies = paginator.page(page)
+        cards = paginator.page(page)
 
     leftIndex = (int(page) - 4)
 
@@ -42,4 +43,4 @@ def paginateVacancies(request, vacancies, results):
 
     custom_range = range(leftIndex, rightIndex)
 
-    return custom_range, vacancies
+    return custom_range, cards
