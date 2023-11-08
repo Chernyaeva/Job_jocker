@@ -20,13 +20,14 @@ def index(request):
                                           Q(profession__icontains='IT') |
                                           Q(profession__icontains='SQL')).count()
     other_vacancies_count = vacancies.count() - it_vacancies_count
-
+    news_item = News.objects.order_by('?').first()
     context = {'resumes':resumes[:5],
                'vacancies':vacancies[:5], 
                'it_vacancies_count':it_vacancies_count, 
                'other_vacancies_count':other_vacancies_count,
                'vacancies_count': vacancies.count(),
                'resumes_count': resumes.count(),
+               'news_item': news_item,
                }
 
     return render(request, 'index.html', context)
