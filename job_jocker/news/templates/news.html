@@ -18,12 +18,12 @@
     "
     >
     <div class="card w-100" 
-        style="background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
+        style="background-color: #FBAD30; color: white; margin-bottom: 10px;">
         <h1 class="card-title" style="text-align: center;">НОВОСТИ</h1>
     </div>
     {% for news_item in news %}
         <div class="card w-100" 
-            style="background-color: rgba(0,0,0,0.5); color: white; margin-bottom: 10px;">
+            style="background-color: rgba(37, 118, 143, 0.8); color: white; margin-bottom: 10px;">
             <div class="row g-0">
                 <div class="col-md-4"
                     style="width: auto">
@@ -36,10 +36,14 @@
                 </div>
                 <div class="col-md-10">
                     <div class="card-body">
-                    <h5 class="card-title">{{news_item.headline}}</h5>
-                    <p class="card-text">{{news_item.text}}</p>
+                        <h5 class="card-title">{{news_item.headline}}</h5>
+                        <p class="card-text">{{news_item.text}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small style="color:white">{{news_item.created | date:'Y-m-d H:m:s'}}</small>
                     </div>
                 </div>
+                
             </div>
         </div>
     {% endfor %}

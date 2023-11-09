@@ -3,17 +3,34 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from datetime import datetime
+from django.db.models import Q
 
 from applicant.models import Applicant, Resume
 from employer.models import Card, Vacancy
 from user.models import User
 from news.models import News
+from .utils import searchCards, paginateCards
 
 
 def index(request):
-    resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')[:5]
-    vacancies = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')[:5]
-    return render(request, 'index.html', {'resumes':resumes, 'vacancies':vacancies})
+    resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')
+    vacancies = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')
+    it_vacancies_count = vacancies.filter(Q(profession__icontains='Программист') |
+                                          Q(profession__icontains='Разработчик') |
+                                          Q(profession__icontains='IT') |
+                                          Q(profession__icontains='SQL')).count()
+    other_vacancies_count = vacancies.count() - it_vacancies_count
+    news_item = News.objects.order_by('?').first()
+    context = {'resumes':resumes[:5],
+               'vacancies':vacancies[:5], 
+               'it_vacancies_count':it_vacancies_count, 
+               'other_vacancies_count':other_vacancies_count,
+               'vacancies_count': vacancies.count(),
+               'resumes_count': resumes.count(),
+               'news_item': news_item,
+               }
+
+    return render(request, 'index.html', context)
 
 @login_required
 def user_logout(request):
@@ -94,7 +111,10 @@ def user_signup(request):
 @login_required()
 def all_company(request):
     companies = Card.objects.all().order_by('-status')
-    return render(request, "all_company.html", {'companies': companies})
+    custom_range, companies = paginateCards(request, companies, 6)
+    context = {'companies': companies,
+                'custom_range': custom_range}
+    return render(request, "all_company.html", context)
 
 
 @login_required()
@@ -127,10 +147,19 @@ def company_comment(request, myid):
     return render(request, 'company_comment.html')
 
 
-def index_all_company(request):
+def index_all_company_old(request):
     companies = Card.objects.all().filter(status='ПУБЛИКАЦИЯ')
     companies.order_by('created')
     return render(request, "index_all_company.html", {'companies': companies})
+
+
+
+def index_all_company(request):
+    cards, search_query = searchCards(request)
+    custom_range, cards = paginateCards(request, cards, 6)
+    context = {'companies': cards,
+            'search_query': search_query, 'custom_range': custom_range}
+    return render(request, 'index_all_company.html', context)
 
 
 def index_company_detail(request, myid):
