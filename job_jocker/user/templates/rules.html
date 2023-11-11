@@ -1,0 +1,178 @@
+{% extends 'basic.html' %}
+
+{% block title %} Job Jocker {% endblock %}
+{% block css %}
+    <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .site-footer{
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #666666;
+            height: auto;
+            width: 100vw;
+
+            padding-top: 5px;
+            color: #fff;
+        }
+        .footer-content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .footer-content h3{
+            font-size: 2.1rem;
+            font-weight: 500;
+            line-height: 3rem;
+        }
+        .footer-content p{
+            max-width: 500px;
+            margin: 3px auto;
+            line-height: 28px;
+            font-size: 14px;
+            color: #cacdd2;
+        }
+        .socials{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0 1rem 0;
+        }
+        .socials li{
+            margin: 0 10px;
+
+        }
+        .socials a{
+            text-decoration: none;
+            color: #fff;
+            padding: 5px;
+
+        }
+        .socials a i{
+            font-size: 3rem;
+            width: 20px;
+
+
+            transition: color .4s ease;
+
+        }
+        .socials a:hover i{
+            color: #5aa5b9;
+        }
+
+        .footer-bottom{            
+        background-color: var(--color-sub-light);
+        width: 100vw;
+        padding: 20px;
+        padding-bottom: 40px;
+        text-align: center;
+        }
+        .footer-bottom p{
+        color:#fff;
+        float: left;
+            font-size: 14px;
+            word-spacing: 2px;
+        
+        }
+        .footer-bottom p a{
+        color:#5aa5b9;
+        font-size: 16px;
+        text-decoration: none;
+        }
+        .footer-bottom span{
+            text-transform: uppercase;
+            opacity: .4;
+            font-weight: 200;
+        }
+        .footer-icons{
+        color: #ccc; 
+        max-height: 32px; 
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="col" style="margin-bottom: 10px; padding-left: 10px;">
+    <h3 style="text-align: center">О компании</h3>    
+    <h6 id="chartContainer2" style="text-align: center">стремительно развивающийся ресурс для поиска работы и сотрудников. </h6>
+</div> 
+
+<div class="row row-cols-1 row-cols-md-5 g-4" style="margin: 0; background-color: #aca7a7;justify-content: center;">
+        <div class="card mb-3" style="width:20%; background-color: rgb(70, 70, 70);" >
+            <div class="card-body" style="margin-left: 0">
+            <h2 class="card-title" style="text-align: center; "><span style="color: #FBAD30;">Мы помогаем </span> <br/>
+                <span style="color: #CC0033;">найти работу.</span>
+                </h2>
+            <img class="img-fluid rounded-start" src="/media/rules_images/employee.jpg" alt="Card image">>
+            </div>
+        </div>
+
+        <div class="card mb-3" style="width:20%; background-color: rgb(70, 70, 70);">
+
+            <div class="card-body">
+            <h2 class="card-title" style="text-align: center; "><span style="color: #FBAD30;">Мы помогаем </span> <br/>
+                <span style="color: #CC0033;">найти сотрудников.</span>
+                </h2>
+            <img class="img-fluid rounded-start" src="/media/rules_images/search.jpg" alt="Card image">>
+            </div>
+        </div>
+        <div class="card mb-3" style="width:20%; background-color: rgb(70, 70, 70);">
+
+            <div class="card-body">
+            <h2 class="card-title" style="text-align: center; "><span style="color: #FBAD30;">Мы помогаем </span> <br/>
+                <span style="color: #CC0033;">сделать мир лучше.</span>
+                </h2>
+            <img class="img-fluid rounded-start" src="/media/rules_images/world_better1.jpg" alt="Card image">>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom: 50px; padding-left: 10px; font-size: 16pt; margin-left: 25%; margin-right: 25%;">
+    <h1 style="text-align: center">Правила использования ресурса</h1> 
+    <h2>Контент</h2>    
+    <ul class="b">
+        <li>Все материалы ресурса предоставляются бесплатно</li>
+        <li>Вы можете свободно делиться ссылками на материалы ресурса с друзьями и коллегами</li>
+        <li>Вы можете свободно цитировать ключевые тезисы материалов ресурса в частных обсуждениях</li>
+        <li>Неправомерное использование размещённых на сайте сведений о соискателях и работодателях запрещено</li>
+      </ul>
+    <h2>Взаимодействие между участниками</h2>    
+    <ul class="b">
+        <li>Использование нецензурной лексики и оскорблений запрещено</li>
+        <li>Дискриминация соискателей в зависимости от его пола, расы, национальности, языка, происхождения, места жительства, отношения к религии, убеждений, принадлежности к общественным объединениям или каким-либо социальным группам</li>
+      </ul>
+</div> 
+</div>  
+</div>
+
+<footer class="site-footer" style="margin-bottom: -50px">
+    <div class="footer-content">
+        <h3><span class="head1">JOB</span><span class="head2">JOCKER</span></h3>
+        <p>Ресурс для поиска моднейших работников и отличной работы, например</p>
+        <ul class="socials">
+            <li><a href="#"><img class="footer-icons" alt="Telegram" src="{% static 'icons/plane.svg' %}"></a></li>
+            <li><a href="#"><img class="footer-icons" alt="Hatogram" src="{% static 'icons/hat.svg' %}"></a></li>
+            <li><a href="#"><img class="footer-icons" alt="Catogram" src="{% static 'icons/cat.svg' %}"></a></li>
+            <li><a href="#"><img class="footer-icons" alt="Birdogram" src="{% static 'icons/bird.svg' %}"></a></li>
+        </ul>
+    </div>
+
+</footer> 
+
+{% endblock %}
+ 
