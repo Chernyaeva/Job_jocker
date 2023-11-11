@@ -32,6 +32,9 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+def rules(request):
+    return render(request, 'rules.html')
+
 @login_required
 def user_logout(request):
     logout(request)
