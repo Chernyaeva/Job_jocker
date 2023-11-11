@@ -50,7 +50,12 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{% url 'employer_homepage' %}">Меню работодателя</a>
           </li>
-          {% endif %}          
+          {% endif %}
+          {% if request.user.user.status == 'Админ' %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'admin_site' %}">Меню администратора</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link {% block rules %} {% endblock %}" aria-current="page" href="/rules/">О портале</a>
           </li>
@@ -65,12 +70,13 @@
           <li class="nav-item">
             <a class="nav-link {% block news %} {% endblock %}" href="/news/">Новости</a>
           </li>
-          
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link active" href="/logout/">Выйти</a>
           </li>
+          {% endif %}
         </ul>
-        
+
       </div>
     </div>
   </nav>

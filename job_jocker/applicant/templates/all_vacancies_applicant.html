@@ -12,14 +12,14 @@
                 <h2>Поиск по <span>вакансиям</span></h2>
             </div>
             <form id='searchForm' class="form" action="{% url 'all_vacancies_applicant' %}" method="get">
-                <div class="input-group" style="justify-content: center;">                   
-                    <div class="form-outline" style="width: 35%">                       
+                <div class="input-group" style="justify-content: center;">
+                    <div class="form-outline" style="width: 35%">
                         <input class="form-control" id="formInput#search" type="search" name="search_query"
                             placeholder="Поиск по профессии, навыкам, описанию вакансии" value="{{ search_query }}" />
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
-                    </button>                
+                    </button>
                 </div>
             </form>
         </div>

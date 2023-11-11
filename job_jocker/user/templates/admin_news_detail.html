@@ -1,0 +1,58 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Модерация новости {% endblock %}
+{% block news %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <b>Картинка</b>
+                <div class="col-md-4"
+                    style="width: auto">
+                        <img
+                            src="{{news.picture.url}}"
+                            alt=""
+                            class="img-fluid rounded-start"
+                            style="width: 200px;"
+                        />
+                </div>
+                <br>
+                    <div class="form-group col-md-12">
+                        <b>Заголовок</b>
+                        <input type="text" class="form-control mt-2" name="headline" id="headline"
+                            value="{{news.headline}}">
+                    </div>
+                 <br>
+                    <div class="form-group col-md-12">
+                        <b>Текст новости</b>
+                        <textarea name="text" id="text" rows="5" cols="100" placeholder="Введите текст новости">{{news.text}}</textarea>
+                    </div>
+                     <div class="row mt-4">
+                        <div class="form-group col-md-6">
+                            <b>Изменить картинку</b>
+                            <input type="file" class="form-control mt-2" name="picture" id="picture">
+                        </div>
+                     </div>
+                <br>
+                <div class="mt-3">
+                    <input type="submit" name="action" value="Обновить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 6rem;">
+                    <input type="submit" name="action" value="Удалить" class="btn btn-danger">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Новость обновлена")
+    window.location = "/admin_site/news/{{news.id}}/"
+    {% endif %}
+</script>
+{% endblock %}

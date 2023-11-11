@@ -17,13 +17,13 @@
     padding-right: 20%;
     "
     >
-    <div class="card w-100" 
+    <div class="card w-100"
         style="background-color: #FBAD30; color: white; margin-bottom: 10px;">
         <h1 class="card-title" style="text-align: center;">НОВОСТИ</h1>
     </div>
     {% for news_item in news %}
-        <div class="card w-100" 
-            style="background-color: rgba(37, 118, 143, 0.8); color: white; margin-bottom: 10px;">
+        <div class="card w-100"
+            style="background-color: rgba(79, 78, 78, 0.8); color: white; margin-bottom: 10px;">
             <div class="row g-0" style="flex-wrap: nowrap;">
                 <div class="col-md-4"
                     style="width: auto">
@@ -43,7 +43,7 @@
                         <small style="color:white">{{news_item.created | date:'Y-m-d H:m:s'}}</small>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     {% endfor %}

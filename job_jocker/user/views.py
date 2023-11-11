@@ -7,7 +7,7 @@ from django.db.models import Q
 
 from applicant.models import Applicant, Resume
 from employer.models import Card, Vacancy
-from user.models import User
+from user.models import User, Chat, Message
 from news.models import News
 from .utils import searchCards, paginateCards
 
@@ -16,24 +16,77 @@ def index(request):
     resumes = Resume.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')
     vacancies = Vacancy.objects.filter(status='ПУБЛИКАЦИЯ').order_by('-id')
     it_vacancies_count = vacancies.filter(Q(profession__icontains='Программист') |
+                                          Q(profession__icontains='программист') |
                                           Q(profession__icontains='Разработчик') |
+                                          Q(profession__icontains='разработчик') |
+                                          Q(profession__icontains='Web') |
+                                          Q(profession__icontains='Django') |
+                                          Q(profession__icontains='backend') |
+                                          Q(profession__icontains='Backend') |
+                                          Q(profession__icontains='Frontend') |
+                                          Q(profession__icontains='frontend') |
                                           Q(profession__icontains='IT') |
+                                          Q(profession__icontains='Developer') |
+                                          Q(profession__icontains='developer') |
+                                          Q(profession__icontains='Python') |
+                                          Q(profession__icontains='JavaScript') |
+                                          Q(profession__icontains='JS') |
+                                          Q(profession__icontains='Middle') |
+                                          Q(profession__icontains='Вэб') |
+                                          Q(profession__icontains='С+') |
+                                          Q(profession__icontains='PHP') |
+                                          Q(profession__icontains='Java') |
+                                          Q(profession__icontains='API') |
+                                          Q(profession__icontains='C#') |
+                                          Q(profession__icontains='DevOps') |
                                           Q(profession__icontains='SQL')).count()
     other_vacancies_count = vacancies.count() - it_vacancies_count
     news_item = News.objects.order_by('?').first()
     context = {'resumes':resumes[:5],
-               'vacancies':vacancies[:5], 
-               'it_vacancies_count':it_vacancies_count, 
+               'vacancies':vacancies[:5],
+               'it_vacancies_count':it_vacancies_count,
                'other_vacancies_count':other_vacancies_count,
                'vacancies_count': vacancies.count(),
                'resumes_count': resumes.count(),
                'news_item': news_item,
                }
-
     return render(request, 'index.html', context)
+
 
 def rules(request):
     return render(request, 'rules.html')
+
+
+@login_required()
+def admin_index(request):
+    return render(request, 'admin_homepage.html')
+
+
+@login_required()
+def admin_news_detail(request, id):
+    news = News.objects.get(id=id)
+    if request.method == 'POST':
+        if request.POST['action'] == 'Удалить':
+            news.delete()
+            return render(request, 'admin_news_delete.html')
+        headline = request.POST['headline']
+        text = request.POST['text']
+        try:
+            picture = request.FILES['picture']
+            if request.POST['action'] == 'Обновить':
+                news.headline = headline
+                news.text = text
+                news.picture = picture
+                news.save()
+                return render(request, 'admin_news_detail.html', {'news': news, 'alert': True})
+        except:
+            if request.POST['action'] == 'Обновить':
+                news.headline = headline
+                news.text = text
+                news.save()
+                return render(request, 'admin_news_detail.html', {'news': news, 'alert': True})
+    return render(request, 'admin_news_detail.html', {'news': news})
+
 
 @login_required
 def user_logout(request):
@@ -241,3 +294,41 @@ def resume_comment(request, myid):
         return render(request, 'resume_comment.html', {'alert': True})
     return render(request, 'resume_comment.html')
 
+
+@login_required()
+def chat(request, chat_id):
+    chat = Chat.objects.get(id=chat_id)
+    messages = Message.objects.filter(chat=chat).order_by('timestamp')
+    try:
+        if request.method == 'POST':
+            to_send = Applicant.objects.get(user=request.user)
+            text = request.POST['text']
+            message = Message.objects.create(chat=chat, to_send=to_send.user, text=text)
+        return render(request, 'chat_applicant.html', {'messages': messages})
+    except:
+        if request.method == 'POST':
+            to_send = Card.objects.get(user=request.user)
+            text = request.POST['text']
+            message = Message.objects.create(chat=chat, to_send=to_send.user, text=text)
+        return render(request, 'chat_employer.html', {'messages': messages})
+
+
+@login_required()
+def admin_news(request):
+    news = News.objects.all().order_by('-created')
+    return render(request, 'all_news.html', {'news': news})
+
+
+@login_required()
+def admin_new_news(request):
+    if request.method == 'POST':
+        headline = request.POST['headline']
+        text = request.POST['text']
+        try:
+            picture = request.FILES['picture']
+            news = News.objects.create(headline=headline, text=text, picture=picture)
+            return render(request, 'new_news.html', {'news': news, 'alert': True})
+        except:
+            news = News.objects.create(headline=headline, text=text)
+            return render(request, 'new_news.html', {'news': news, 'alert': True})
+    return render(request, 'new_news.html')

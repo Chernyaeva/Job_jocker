@@ -33,6 +33,7 @@ urlpatterns = [
     path('employer/', include('employer.urls')),
     path('admin_site/', include('user.urls')),
     path('news/', include('news.urls')),
+    path('chat/<int:chat_id>/', views.chat, name='chat'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

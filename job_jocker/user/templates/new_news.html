@@ -1,0 +1,42 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Создание новости {% endblock %}
+{% block news %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                 <div class="row">
+                    <div class="form-group col-md-12">
+                        <label>Название новости</label>
+                        <input type="text" class="form-control mt-2" name="headline" id="headline" placeholder="Введите название новости" required>
+                    </div>
+                 </div>
+                 <br>
+                 <div class="form-group col-md-12">
+                     <label>Текст новости</label>
+                     <textarea name="text" id="text" rows="5" cols="100" placeholder="Введите текст новости"></textarea>
+                 </div>
+                    <br>
+                     <div class="form-group col-md-6">
+                        <label>Картинка</label>
+                        <input type="file" class="form-control" name="picture" id="picture" placeholder="">
+                      </div>
+    <br>
+    <input type="submit" value="Сохранить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}`
+<script>
+    {% if alert%}
+    alert("Новость создана")
+    window.location = "/admin_site/news/"
+    {% endif %}
+</script>
+{% endblock %}

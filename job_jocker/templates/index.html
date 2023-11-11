@@ -72,7 +72,7 @@
             color: #5aa5b9;
         }
 
-        .footer-bottom{            
+        .footer-bottom{
         background-color: var(--color-sub-light);
         width: 100vw;
         padding: 20px;
@@ -84,7 +84,7 @@
         float: left;
             font-size: 14px;
             word-spacing: 2px;
-        
+
         }
         .footer-bottom p a{
         color:#5aa5b9;
@@ -97,8 +97,8 @@
             font-weight: 200;
         }
         .footer-icons{
-        color: #ccc; 
-        max-height: 32px; 
+        color: #ccc;
+        max-height: 32px;
         }
     </style>
 {% endblock %}
@@ -108,9 +108,9 @@
         var chart = new CanvasJS.Chart("chartContainer",
         {
             theme: "light2",
-            		
+
             data: [
-            {       
+            {
                 type: "pie",
                 showInLegend: true,
                 toolTipContent: "{y} - #percent %",
@@ -126,9 +126,9 @@
         chart.render();
         var chart2 = new CanvasJS.Chart("chartContainer2",
         {
-            theme: "light1",		
+            theme: "light1",
             data: [
-            {       
+            {
                 type: "pie",
                 showInLegend: true,
                 toolTipContent: "{y} - #percent %",
@@ -145,7 +145,7 @@
     }
 </script>
 <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.min.js"></script></head>
-{% endblock %}    
+{% endblock %}
 {% block body %}
 {% load static %}
 
@@ -161,7 +161,7 @@
     padding-right: 10%;
     "
     >
-    <div class="card w-100" 
+    <div class="card w-100"
     style="background-color: rgb(255, 255, 255); color: rgb(255, 255, 255); margin-bottom: 10px;">
     <h1 class="card-title" style="text-align: center; "><span style="color: #FBAD30;">В поисках</span> <span style="color: #CC0033;">работы?</span></h1>
     </div>
@@ -169,13 +169,13 @@
         style="margin-left: 0; margin-right: 0;">
         {% for vacancy in vacancies %}
         <div class="card mb-5"
-            style=" background-color: rgba(25, 127, 167, 1); color: white; margin-bottom: 10px;">
+            style=" background-color: rgba(79, 78, 78, 0.5); color: white; margin-bottom: 20px;">
             <div class="row g-0">
                 <div class="col-md-4">
                         <img
                             src="{{vacancy.card_id.logo.url}}"
                             alt=""
-                            class="img-fluid rounded-start"                   
+                            class="img-fluid rounded-start"
                         />
                 </div>
                 <div class="col-md-8">
@@ -190,9 +190,9 @@
         </div>
         {% endfor %}
     </div>
-    
+
     <a class="card w-100"
-        href="{% url 'news' %}" 
+        href="{% url 'news' %}"
         style="background-color: rgba(37, 118, 143, 0.8); color: white; margin-bottom: 30px; box-sizing: border-box; text-decoration: none;">
         <div class="row g-0">
             <div class="col-md-4"
@@ -213,7 +213,7 @@
                     <small style="color:white">{{news_item.created | date:'Y-m-d H:m:s'}}</small>
                 </div>
             </div>
-            
+
         </div>
     </a>
 
@@ -222,14 +222,14 @@
         <div style="margin-bottom: 10px; padding-right: 10px;">
             <h5 style="text-align: center">Доля IT сектора на рынке труда</h5>
             <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-        </div> 
+        </div>
         <div style="margin-bottom: 10px; padding-left: 10px;">
-            <h5 style="text-align: center">Соотношение количества резюме и количества вакансий</h5>    
+            <h5 style="text-align: center">Соотношение количества резюме и количества вакансий</h5>
             <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
-        </div> 
-    </div>  
+        </div>
+    </div>
 </div>
- 
+
 <footer class="site-footer" style="position: sticky;">
     <div class="footer-content">
         <h3><span class="head1">JOB</span><span class="head2">JOCKER</span></h3>
@@ -242,7 +242,6 @@
         </ul>
     </div>
 
-</footer> 
+</footer>
 
 {% endblock %}
-

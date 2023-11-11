@@ -1,6 +1,6 @@
 from django.db import models
 
-from user.models import User
+from user.models import User, Chat
 
 
 class Card(models.Model):
@@ -66,6 +66,7 @@ class Application(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=300)
     response = models.TextField(null=True, blank=True)
+    chat = models.ForeignKey(Chat, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f" {self.vacancy.card_id.name}, {self.resume.surname}, {self.resume.profession}"

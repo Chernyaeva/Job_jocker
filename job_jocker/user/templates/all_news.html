@@ -1,0 +1,32 @@
+{% extends 'admin_navbar.html' %}
+
+{% block title %} Модерация новостей {% endblock %}
+{% block news %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Заголовок новости</th>
+                <th>Дата размещения</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in news %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.headline}}</td>
+                <td>{{i.created}}</td>
+                <td><a href="/admin_site/news/{{i.id}}/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Открыть</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h6> <a href="/admin_site/new_news/" type="submit" class="btn" style="background-color: #666666; color: white; width: 8rem;">Создать</a>
+ </h6>
+    {% include 'pagination.html' with queryset=news custom_range=custom_range %}
+</div>
+{% endblock %}

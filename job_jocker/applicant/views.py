@@ -3,7 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core import paginator
 
-from user.models import User
+from user.models import User, Chat
 from django.shortcuts import render, redirect
 from .models import Resume, Applicant, FavoriteVacancies
 from employer.models import Vacancy, Application
@@ -48,6 +48,7 @@ def all_resumes(request):
     applicant = Applicant.objects.get(user=request.user)
     resumes = Resume.objects.filter(applicant=applicant)
     return render(request, "all_resumes.html", {'resumes':resumes})
+
 
 def resume(request, myid):
     if not request.user.is_authenticated:
@@ -127,7 +128,6 @@ def edit_resume(request, myid):
     return render(request, 'resume_edit.html', {'resume': my_resume})
 
 
-
 def all_vacancies_applicant_old(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
@@ -137,6 +137,7 @@ def all_vacancies_applicant_old(request):
         if vacancy.card_id.status == 'ПУБЛИКАЦИЯ':
             vacancies.append(vacancy)
     return render(request, "all_vacancies_applicant.html", {'vacancies': vacancies})
+
 
 def all_vacancies_applicant(request):
     if not request.user.is_authenticated:
@@ -149,37 +150,79 @@ def all_vacancies_applicant(request):
 
 
 @login_required()
+def favorite_vacancy_delete(request, vacancy_id):
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    applicant = Applicant.objects.get(user=request.user)
+    favorite_vacancy = FavoriteVacancies.objects.filter(vacancy=vacancy).filter(applicant=applicant)
+    favorite_vacancy.delete()
+    return render(request, 'favorite_vacancy_delete.html')
+
+
+@login_required()
 def applicant_vacancy_detail(request, pk):
     vacancyObj = Vacancy.objects.get(id=pk)
     applicant = Applicant.objects.get(user=request.user)
-    favorite_vacancies = FavoriteVacancies.objects.filter(applicant=applicant)
-    favorite_vacancies = Vacancy.objects.filter(id__in=favorite_vacancies)
-    return render(request, 'applicant_vacancy_detail.html', {'vacancy': vacancyObj, 'favorite_vacancies':favorite_vacancies})
+    try:
+        favorite_vacancy = FavoriteVacancies.objects.filter(applicant=applicant)
+    except:
+        return render(request, 'applicant_vacancy_detail.html',
+                          {'vacancy': vacancyObj, 'alert': True})
+    else:
+        for i in favorite_vacancy:
+            if i.vacancy == vacancyObj:
+                return render(request, 'applicant_vacancy_detail.html',
+                              {'vacancy': vacancyObj, 'alert': False})
+        return render(request, 'applicant_vacancy_detail.html', {'vacancy': vacancyObj, 'alert': True})
 
 
+@login_required()
 def choose_resume(request, vacancy_id):
-    vacancy = Vacancy.objects.get(id=vacancy_id)
     applicant = Applicant.objects.get(user=request.user)
-    resumes = Resume.objects.filter(applicant=applicant)
-    return render(request, "choose_resume.html", {'resumes':resumes, 'vacancy':vacancy})
+    vacancy = Vacancy.objects.get(id=vacancy_id)
+    resumes = Resume.objects.filter(applicant=applicant).filter(status='ПУБЛИКАЦИЯ')
+    if len(Resume.objects.filter(applicant=applicant)) == 0:
+        return render(request, "choose_resume.html", {'alert': True})
+    elif len(resumes) == 0:
+        return render(request, "choose_resume.html", {'alert_1': True})
+    return render(request, "choose_resume.html", {'resumes': resumes, 'vacancy': vacancy})
 
 
+
+@login_required()
 def application_sent(request, vacancy_id, resume_id):
     resume = Resume.objects.get(id=resume_id)
     vacancy = Vacancy.objects.get(id=vacancy_id)
-    user = User.objects.get(id = request.user.id)
-    new_application = Application.objects.create(resume=resume,
+    user = User.objects.get(id=request.user.id)
+    try:
+        application = Application.objects.filter(vacancy=vacancy)
+        for app in application:
+            if app.resume == resume:
+                return render(request, "application_sent.html", {'alert_repeat': True})
+    except:
+        new_application = Application.objects.create(resume=resume,
                                                   vacancy=vacancy,
                                                   creator=user,
                                                   status='Отправлено')
-    new_application.save()
-    return render(request, "application_sent.html")
+        new_application.save()
+        alert = True
+        return render(request, "application_sent.html", {'alert': alert})
+    else:
+        new_application = Application.objects.create(resume=resume,
+                                                     vacancy=vacancy,
+                                                     creator=user,
+                                                     status='Отправлено')
+        new_application.save()
+        alert = True
+        return render(request, "application_sent.html", {'alert': alert})
 
+
+@login_required()
 def applicant_applications(request):
     applicant = Applicant.objects.get(user=request.user)
     resumes = Resume.objects.filter(applicant = applicant)
     applications = Application.objects.filter(resume__in = resumes)
     return render(request, "applicant_applications.html", {'applications': applications})
+
 
 def applicant_application_detail(request, application_id):
     if not request.user.is_authenticated:
@@ -189,16 +232,30 @@ def applicant_application_detail(request, application_id):
     resume = Resume.objects.get(id=application.resume.id)
     return render(request, 'applicant_application_detail.html',{'application':application,'vacancy':vacancy,'resume':resume})
 
+
+def applicant_application_delete(request, application_id):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    application = Application.objects.get(id=application_id)
+    application.delete()
+    return render(request, 'applicant_application_delete.html', {'alert': True})
+
+
+@login_required()
 def vacancy_answer(request, application_id, action):
     application = Application.objects.get(id=application_id)
     if action == 'ACCEPT':
         application.status = 'Принято'
+        chat = Chat.objects.create(sender=application.resume.applicant.user, recipient=application.vacancy.card_id.user)
+        application.chat = chat
+
     else:
         application.status = 'Отклонено'    
     application.save()
     return render(request, "vacancy_answer.html", {'action': action})
 
 
+@login_required()
 def add_favorite_vacancy(request, vacancy_id):
     applicant = Applicant.objects.get(user=request.user)
     vacancy = Vacancy.objects.get(id=vacancy_id)
@@ -207,8 +264,8 @@ def add_favorite_vacancy(request, vacancy_id):
     return render(request, "add_favorite_vacancy.html")
 
 
+@login_required()
 def favorite_vacancies(request):
     applicant = Applicant.objects.get(user=request.user)
-    favorite_vacancies = FavoriteVacancies.objects.filter(applicant=applicant)
-    vacancies = Vacancy.objects.filter(id__in=favorite_vacancies)
+    vacancies = FavoriteVacancies.objects.filter(applicant=applicant)
     return render(request, "favorite_vacancies.html", {'vacancies':vacancies})

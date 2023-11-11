@@ -14,9 +14,11 @@ urlpatterns = [
     path("resume/<int:myid>/", views.resume_employer, name="resume_employer"),
     path("add_favorite_resume/<int:card_id>/<int:resume_id>/", views.add_favorite_resume, name="add_favorite_resume"),
     path('favorite_resumes/', views.favorite_resumes, name="favorite_resumes"),
+    path('favorite_resume_delete/<int:resume_id>/', views.favorite_resume_delete, name="favorite_resume_delete"),
     path("offer_sent/<int:vacancy_id>/<int:resume_id>/", views.offer_sent, name="offer_sent"),
     path('employer_applications/', views.employer_applications, name="employer_applications"),
     path('employer_admin_comment/', views.employer_admin_comment, name="employer_admin_comment"),
     path('employer_application_detail/<int:application_id>/', views.employer_application_detail, name="employer_application_detail"),
+    path('employer_application_delete/<int:application_id>/', views.employer_application_delete, name="employer_application_delete"),
     path('resume_answer/<int:application_id>/<str:action>/', views.resume_answer, name="resume_answer"),
 ]

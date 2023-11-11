@@ -1,0 +1,13 @@
+{% extends 'admin_navbar.html' %}
+{% block title %} Модерация новости {% endblock %}
+{% block news %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Новость удалена")
+    window.location = "/admin_site/news/"
+</script>
+{% endblock %}

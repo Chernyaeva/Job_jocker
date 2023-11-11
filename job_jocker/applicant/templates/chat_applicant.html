@@ -1,0 +1,21 @@
+{% extends 'applicant_navbar.html' %}
+{% block title %} Чат соискателя {% endblock %}
+{% block applicant_applications %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+        {% for message in messages %}
+            <p>{{message.to_send}} от {{message.timestamp}}:</p>
+            <p>{{message.text}}</p>
+        {% endfor %}
+    <div class="row">
+            <form class="container mt-4" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" class="form-control mt-2" name="text" id="" required>
+                <br>
+                <input type="submit" value="Отправить" class="btn" style="background-color: #666666; color: white; font-size: normal; width: 10rem;">
+            </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'employer_navbar.html' %}
+
+{% block title %} Удалить приглашение {% endblock %}
+{% block employer_applications %} active {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+{% endblock %}
+{% block js %}
+<script>
+    alert("Отклик удален")
+    window.location = "{% url 'employer_applications' %}"
+</script>
+{% endblock %}
